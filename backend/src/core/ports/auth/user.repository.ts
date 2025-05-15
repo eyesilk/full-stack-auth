@@ -1,4 +1,4 @@
-import { AuthMethod, UserEntity } from "../../domain";
+import { type AuthMethod, UserEntity } from "../../domain";
 
 export interface IUserRepository {
   findById(id: string): Promise<UserEntity>,
