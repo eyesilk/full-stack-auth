@@ -7,6 +7,7 @@ import { RedisStore } from 'connect-redis';
 import IORedis from 'ioredis';
 import * as session from 'express-session';
 import { ms, parseBoolean, StringValue } from './infrastructure/common/utils';
+import { ExceptionsFilter } from './infrastructure/common/exceptions';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -21,6 +22,8 @@ async function bootstrap() {
       transform: true
     })
   )
+
+  app.useGlobalFilters(new ExceptionsFilter());
 
   app.use(
     session({

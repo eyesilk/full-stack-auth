@@ -1,8 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import * as argon2 from "argon2";
+import { HashPort } from "src/core/ports/auth";
 
 @Injectable()
-export class HashService {
+export class HashService implements HashPort {
   async hash(field: string): Promise<string> {
     return await argon2.hash(field, {
       type: argon2.argon2id,

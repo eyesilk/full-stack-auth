@@ -5,7 +5,7 @@ import { PrismaClient } from "prisma/__generated__";
 export class PrismaService extends PrismaClient implements OnModuleInit, OnModuleDestroy {
   onModuleInit() {
     this.$connect;
-    console.log('Postgre OK');
+    console.log('Prisma OK');
   }
 
   onModuleDestroy() {
