@@ -19,9 +19,9 @@ async function bootstrap() {
 
   app.useGlobalPipes(
     new ValidationPipe({
-      transform: true
-    })
-  )
+      transform: true,
+    }),
+  );
 
   app.useGlobalFilters(new ExceptionsFilter());
 
@@ -41,25 +41,22 @@ async function bootstrap() {
       store: new RedisStore({
         client: redis,
         prefix: config.getOrThrow<string>('SESSION_FOLDER'),
-      })
-    })
-  )
+      }),
+    }),
+  );
 
   app.enableCors({
     origin: config.getOrThrow<string>('ALLOWED_ORIGIN'),
     credentials: true,
     exposedHeaders: ['set-cookie'],
-  })
+  });
 
   const PORT: number = config.getOrThrow<number>('APPLICATION_PORT');
 
   try {
-    await app.listen(
-      PORT,
-      () => console.log("Server OK. PORT: ", PORT),
-    );
+    await app.listen(PORT, () => console.log('Server OK. PORT: ', PORT));
   } catch (error) {
-    console.log("Server shutdown. ERROR: ", error);
+    console.log('Server shutdown. ERROR: ', error);
   }
 }
 bootstrap();

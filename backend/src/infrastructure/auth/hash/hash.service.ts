@@ -1,6 +1,6 @@
-import { Injectable } from "@nestjs/common";
-import * as argon2 from "argon2";
-import { HashPort } from "src/core/ports/auth";
+import { Injectable } from '@nestjs/common';
+import * as argon2 from 'argon2';
+import { HashPort } from 'src/core/ports/auth';
 
 @Injectable()
 export class HashService implements HashPort {
@@ -14,6 +14,6 @@ export class HashService implements HashPort {
   }
 
   async verify(userPassword: string, inputPassword: string): Promise<boolean> {
-    return await argon2.verify(userPassword, inputPassword)
+    return await argon2.verify(userPassword, inputPassword);
   }
 }

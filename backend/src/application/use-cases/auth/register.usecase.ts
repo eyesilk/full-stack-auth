@@ -1,13 +1,9 @@
-import { AuthMethod, UserEntity } from 'src/core/domain';
+import { UserEntity } from 'src/core/domain';
 import { BaseAuthUseCase } from './base.usecase';
 import { ConflictError } from 'src/application/errors';
 
 export class RegisterUseCase extends BaseAuthUseCase {
-  async execute(
-    name: string,
-    email: string,
-    password: string,
-  ) {
+  async execute(name: string, email: string, password: string) {
     const userExist: UserEntity | null = await this.userRepo.findByEmail(email);
 
     if (userExist) {
@@ -20,10 +16,10 @@ export class RegisterUseCase extends BaseAuthUseCase {
       email,
       password,
       name,
-      "",
-      "CREDENTIALS",
+      '',
+      'CREDENTIALS',
       false,
-    )
+    );
 
     return newUser;
   }

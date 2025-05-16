@@ -1,9 +1,9 @@
-import { AuthMethod, UserEntity } from "src/core/domain";
-import { Injectable, NotFoundException } from "@nestjs/common";
-import { PrismaService } from "src/infrastructure/prisma";
-import { User } from "./user.type";
-import { HashService } from "../hash";
-import { IUserRepository } from "src/core/ports/auth";
+import { AuthMethod, UserEntity } from 'src/core/domain';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { PrismaService } from 'src/infrastructure/prisma';
+import { User } from './user.type';
+import { HashService } from '../hash';
+import { IUserRepository } from 'src/core/ports/auth';
 
 @Injectable()
 export class UserRepository implements IUserRepository {
@@ -15,14 +15,17 @@ export class UserRepository implements IUserRepository {
   async findById(id: string): Promise<UserEntity> {
     const user: User | null = await this.prismaService.user.findUnique({
       where: {
-        id
+        id,
       },
       include: {
-        accounts: true
-      }
+        accounts: true,
+      },
     });
 
-    if (!user) throw new NotFoundException('User not found. Please check the entered data.');
+    if (!user)
+      throw new NotFoundException(
+        'User not found. Please check the entered data.',
+      );
 
     return this.returnUser(user);
   }
@@ -30,11 +33,11 @@ export class UserRepository implements IUserRepository {
   async findByEmail(email: string): Promise<UserEntity | null> {
     const user: User | null = await this.prismaService.user.findUnique({
       where: {
-        email
+        email,
       },
       include: {
-        accounts: true
-      }
+        accounts: true,
+      },
     });
 
     if (!user) return null;
@@ -48,7 +51,7 @@ export class UserRepository implements IUserRepository {
     displayName: string,
     avatar: string,
     method: AuthMethod,
-    isVerified: boolean
+    isVerified: boolean,
   ): Promise<UserEntity> {
     const user: User = await this.prismaService.user.create({
       data: {
@@ -61,7 +64,7 @@ export class UserRepository implements IUserRepository {
       },
       include: {
         accounts: true,
-      }
+      },
     });
 
     return this.returnUser(user);
