@@ -40,7 +40,7 @@ async function bootstrap() {
       },
       store: new RedisStore({
         client: redis,
-        prefix: config.getOrThrow<string>('SESSION_FOLDER'),
+        prefix: config.getOrThrow<string>('SESSION_PREFIX'),
       }),
     }),
   );

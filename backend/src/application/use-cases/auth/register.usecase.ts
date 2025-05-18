@@ -3,7 +3,12 @@ import { BaseAuthUseCase } from './base.usecase';
 import { ConflictError } from 'src/application/errors';
 
 export class RegisterUseCase extends BaseAuthUseCase {
-  async execute(name: string, email: string, password: string) {
+  async execute(
+    req: any,
+    name: string,
+    email: string,
+    password: string,
+  ): Promise<UserEntity> {
     const userExist: UserEntity | null = await this.userRepo.findByEmail(email);
 
     if (userExist) {
@@ -21,6 +26,6 @@ export class RegisterUseCase extends BaseAuthUseCase {
       false,
     );
 
-    return newUser;
+    return this.sessionPort.save(req, newUser);
   }
 }
