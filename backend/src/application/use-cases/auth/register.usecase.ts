@@ -17,9 +17,11 @@ export class RegisterUseCase extends BaseAuthUseCase {
       );
     }
 
+    const hashedPassword = await this.hashPort.hash(password);
+
     const newUser: UserEntity | null = await this.userRepo.create(
       email,
-      password,
+      hashedPassword,
       name,
       '',
       'CREDENTIALS',

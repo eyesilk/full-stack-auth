@@ -3,7 +3,7 @@ import { HashPort, IUserRepository } from 'src/core/ports/auth';
 import { SessionPort } from 'src/core/ports/auth/session.port';
 import { HashService } from 'src/infrastructure/auth/hash';
 import { SessionService } from 'src/infrastructure/auth/session';
-import { UserRepository } from 'src/infrastructure/auth/user';
+import { UserRepository } from 'src/infrastructure/user';
 
 export function createAuthUseCaseProvider(useCase: any): Provider {
   return {

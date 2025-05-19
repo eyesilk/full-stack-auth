@@ -5,7 +5,7 @@ import {
   MinLength,
   Validate,
 } from 'class-validator';
-import { IsPasswordMatchingConstraint } from 'src/infrastructure/common/decorators';
+import { IsPasswordMatchingConstraint } from '../decorators';
 
 export class RegisterDto {
   @IsString({ message: 'Name should be a string.' })

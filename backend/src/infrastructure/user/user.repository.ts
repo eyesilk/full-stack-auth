@@ -1,16 +1,12 @@
 import { AuthMethod, UserEntity } from 'src/core/domain';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/infrastructure/prisma';
-import { User } from './user.type';
-import { HashService } from '../hash';
 import { IUserRepository } from 'src/core/ports/auth';
+import { User } from './types';
 
 @Injectable()
 export class UserRepository implements IUserRepository {
-  constructor(
-    private readonly prismaService: PrismaService,
-    private readonly hashService: HashService,
-  ) { }
+  constructor(private readonly prismaService: PrismaService) { }
 
   async findById(id: string): Promise<UserEntity> {
     const user: User | null = await this.prismaService.user.findUnique({
@@ -56,7 +52,7 @@ export class UserRepository implements IUserRepository {
     const user: User = await this.prismaService.user.create({
       data: {
         email,
-        password: await this.hashService.hash(password),
+        password,
         displayName,
         avatar,
         method,
