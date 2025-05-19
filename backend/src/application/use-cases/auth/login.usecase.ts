@@ -3,7 +3,11 @@ import { BaseAuthUseCase } from './base.usecase';
 import { NotFoundError, UnauthorizedError } from 'src/application/errors';
 
 export class LoginUseCase extends BaseAuthUseCase {
-  async execute(req: any, email: string, password: string) {
+  async execute(
+    req: any,
+    email: string,
+    password: string,
+  ): Promise<UserEntity> {
     const userExist: UserEntity | null = await this.userRepo.findByEmail(email);
 
     if (!userExist || !userExist.password) {

@@ -5,7 +5,7 @@ import { HashService } from 'src/infrastructure/auth/hash';
 import { SessionService } from 'src/infrastructure/auth/session';
 import { UserRepository } from 'src/infrastructure/auth/user';
 
-export function createUseCaseProvider(useCase: any): Provider {
+export function createAuthUseCaseProvider(useCase: any): Provider {
   return {
     provide: useCase,
     useFactory: (

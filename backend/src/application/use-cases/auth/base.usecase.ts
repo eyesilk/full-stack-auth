@@ -1,3 +1,4 @@
+import { ConfigService } from '@nestjs/config';
 import { HashPort, IUserRepository } from 'src/core/ports/auth';
 import { SessionPort } from 'src/core/ports/auth/session.port';
 

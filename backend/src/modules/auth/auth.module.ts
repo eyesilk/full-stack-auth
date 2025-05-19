@@ -1,18 +1,22 @@
 import { Module } from '@nestjs/common';
 import { AuthController } from 'src/infrastructure/auth';
 import { HashModule } from 'src/infrastructure/auth/hash';
-import { createUseCaseProvider } from './providers';
+import { createAuthUseCaseProvider } from './providers';
 import { UserRepository } from 'src/infrastructure/auth/user';
 import { SessionModule } from 'src/infrastructure/auth/session';
-import { RegisterUseCase } from 'src/application/use-cases/auth';
-import { LoginUseCase } from 'src/application/use-cases/auth/login.usecase';
+import {
+  LoginUseCase,
+  LogoutUseCase,
+  RegisterUseCase,
+} from 'src/application/use-cases/auth';
 
 @Module({
   controllers: [AuthController],
   providers: [
     UserRepository,
-    createUseCaseProvider(RegisterUseCase),
-    createUseCaseProvider(LoginUseCase),
+    createAuthUseCaseProvider(RegisterUseCase),
+    createAuthUseCaseProvider(LoginUseCase),
+    createAuthUseCaseProvider(LogoutUseCase),
   ],
   imports: [HashModule, SessionModule],
 })
