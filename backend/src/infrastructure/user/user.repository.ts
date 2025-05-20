@@ -1,8 +1,8 @@
 import { AuthMethod, UserEntity } from 'src/core/domain';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/infrastructure/prisma';
-import { IUserRepository } from 'src/core/ports/auth';
 import { User } from './types';
+import { IUserRepository } from 'src/core/ports/user';
 
 @Injectable()
 export class UserRepository implements IUserRepository {

@@ -1,6 +1,7 @@
 import { Provider } from '@nestjs/common';
-import { HashPort, IUserRepository } from 'src/core/ports/auth';
+import { HashPort } from 'src/core/ports/auth';
 import { SessionPort } from 'src/core/ports/auth/session.port';
+import { IUserRepository } from 'src/core/ports/user';
 import { HashService } from 'src/infrastructure/auth/hash';
 import { SessionService } from 'src/infrastructure/auth/session';
 import { UserRepository } from 'src/infrastructure/user';

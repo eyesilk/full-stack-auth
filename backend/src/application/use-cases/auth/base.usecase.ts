@@ -1,6 +1,6 @@
-import { ConfigService } from '@nestjs/config';
-import { HashPort, IUserRepository } from 'src/core/ports/auth';
+import { HashPort } from 'src/core/ports/auth';
 import { SessionPort } from 'src/core/ports/auth/session.port';
+import { IUserRepository } from 'src/core/ports/user';
 
 export abstract class BaseAuthUseCase {
   constructor(

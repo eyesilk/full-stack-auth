@@ -1,16 +1,15 @@
 import { Controller, Get, HttpCode, HttpStatus } from '@nestjs/common';
-import { UserRepository } from './user.repository';
 import { Authorization, Authorized } from '../common/decorators';
-import { UserEntity } from 'src/core/domain';
+import { GetProfileUseCase } from 'src/application/use-cases/user';
 
 @Controller('user')
 export class UserController {
-  constructor(public readonly userRepo: UserRepository) { }
+  constructor(public readonly getProfileCase: GetProfileUseCase) { }
 
   @Get('profile')
   @HttpCode(HttpStatus.OK)
   @Authorization()
-  async profile(@Authorized() user: UserEntity) {
-    return this.userRepo.findById(user.id);
+  async profile(@Authorized('id') userId: string) {
+    return this.getProfileCase.execute(userId);
   }
 }
