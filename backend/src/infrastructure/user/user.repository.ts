@@ -1,8 +1,8 @@
 import { AuthMethod, UserEntity } from 'src/core/domain';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/infrastructure/prisma';
-import { User } from './types';
 import { IUserRepository } from 'src/core/ports/user';
+import { User } from 'prisma/__generated__';
 
 @Injectable()
 export class UserRepository implements IUserRepository {
@@ -12,9 +12,6 @@ export class UserRepository implements IUserRepository {
     const user: User | null = await this.prismaService.user.findUnique({
       where: {
         id,
-      },
-      include: {
-        accounts: true,
       },
     });
 
@@ -30,9 +27,6 @@ export class UserRepository implements IUserRepository {
     const user: User | null = await this.prismaService.user.findUnique({
       where: {
         email,
-      },
-      include: {
-        accounts: true,
       },
     });
 
@@ -58,9 +52,6 @@ export class UserRepository implements IUserRepository {
         method,
         isVerified,
       },
-      include: {
-        accounts: true,
-      },
     });
 
     return this.returnUser(user);
@@ -79,7 +70,6 @@ export class UserRepository implements IUserRepository {
       user.createdAt,
       user.updatedAt,
       user.avatar,
-      user.accounts,
     );
   }
 }

@@ -11,8 +11,8 @@ datasource db {
 model User {
   id String @id @default(uuid())
 
-  email    String @unique
-  password String
+  email    String  @unique
+  password String?
 
   displayName String  @map("display_name")
   avatar      String?
@@ -24,42 +24,10 @@ model User {
 
   method AuthMethod
 
-  accounts Account[]
-
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @map("updated_at")
 
   @@map("users")
-}
-
-model Account {
-  id String @id @default(uuid())
-
-  type     String
-  provider String
-
-  refreshToken String? @map("refresh_token")
-  accessToken  String? @map("access_token")
-  expiresAt    Int     @map("expires_at")
-
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @default(now()) @map("updated_at")
-
-  user   User?   @relation(fields: [userId], references: [id])
-  userId String? @map("user_id")
-
-  @@map("accounts")
-}
-
-model Token {
-  id String @id @default(uuid())
-
-  email     String
-  token     String    @unique()
-  type      TokenType
-  expiresIn DateTime  @map("expires_in")
-
-  @@map("tokens")
 }
 
 enum UserRole {
@@ -70,10 +38,6 @@ enum UserRole {
 enum AuthMethod {
   CREDENTIALS
   GOOGLE
+  GITHUB
 }
 
-enum TokenType {
-  VERIFICATION
-  TWO_FACTOR
-  PASSWORD_RESET
-}

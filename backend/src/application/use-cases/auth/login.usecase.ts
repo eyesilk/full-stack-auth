@@ -25,6 +25,6 @@ export class LoginUseCase extends BaseAuthUseCase {
       );
     }
 
-    return this.sessionPort.save(req, userExist);
+    return await this.sessionPort.save(req, userExist);
   }
 }

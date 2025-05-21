@@ -30,6 +30,7 @@ async function bootstrap() {
       secret: config.getOrThrow<string>('SESSION_SECRET'),
       name: config.getOrThrow<string>('SESSION_NAME'),
       resave: true,
+      rolling: true,
       saveUninitialized: false,
       cookie: {
         domain: config.getOrThrow<string>('SESSION_DOMAIN'),

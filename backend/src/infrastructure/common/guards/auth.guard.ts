@@ -5,6 +5,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Request } from 'express';
+import { UserEntity } from 'src/core/domain';
 import { UserRepository } from 'src/infrastructure/user';
 
 @Injectable()
@@ -20,7 +21,9 @@ export class AuthGuard implements CanActivate {
       );
     }
 
-    const user = await this.userRepo.findById(request.session.userId);
+    const user: UserEntity = await this.userRepo.findById(
+      request.session.userId,
+    );
 
     request.user = user;
 

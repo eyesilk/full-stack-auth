@@ -1,4 +1,4 @@
-import { Controller, Get, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Get, HttpCode, HttpStatus, Param } from '@nestjs/common';
 import { Authorization, Authorized } from '../common/decorators';
 import { GetProfileUseCase } from 'src/application/use-cases/user';
 
@@ -11,5 +11,12 @@ export class UserController {
   @Authorization()
   async profile(@Authorized('id') userId: string) {
     return this.getProfileCase.execute(userId);
+  }
+
+  @Get('by-id/:id')
+  @HttpCode(HttpStatus.OK)
+  @Authorization('ADMIN')
+  async findById(@Param('id') id: string) {
+    return this.getProfileCase.execute(id);
   }
 }

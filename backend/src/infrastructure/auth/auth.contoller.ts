@@ -1,17 +1,26 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Post,
   Req,
   Res,
 } from '@nestjs/common';
-import { LogoutUseCase, RegisterUseCase } from 'src/application/use-cases/auth';
+import {
+  GitHubUseCase,
+  LogoutUseCase,
+  RegisterUseCase,
+  LoginUseCase,
+  GoogleUseCase,
+} from 'src/application/use-cases/auth';
 import { LoginDto, RegisterDto } from './dto';
 import { Request, Response } from 'express';
-import { LoginUseCase } from 'src/application/use-cases/auth/login.usecase';
 import { UserEntity } from 'src/core/domain';
+import { Recaptcha } from '@nestlab/google-recaptcha';
+import { Authorized } from '../common/decorators';
+import { GitHubAuth, GoogleAuth } from './decorators';
 
 @Controller('auth')
 export class AuthController {
@@ -19,10 +28,13 @@ export class AuthController {
     private readonly registerCase: RegisterUseCase,
     private readonly loginCase: LoginUseCase,
     private readonly logoutCase: LogoutUseCase,
+    private readonly githubCase: GitHubUseCase,
+    private readonly googleCase: GoogleUseCase,
   ) { }
 
   @Post('register')
   @HttpCode(HttpStatus.CREATED)
+  @Recaptcha()
   async register(
     @Req() req: Request,
     @Body() dto: RegisterDto,
@@ -32,6 +44,7 @@ export class AuthController {
 
   @Post('login')
   @HttpCode(HttpStatus.OK)
+  @Recaptcha()
   async login(@Req() req: Request, @Body() dto: LoginDto): Promise<UserEntity> {
     return this.loginCase.execute(req, dto.email, dto.password);
   }
@@ -41,5 +54,37 @@ export class AuthController {
   async logout(@Req() req: Request, @Res() res: Response): Promise<void> {
     await this.logoutCase.execute(req, res);
     res.send(true);
+  }
+
+  @Get('github')
+  @HttpCode(HttpStatus.OK)
+  @GitHubAuth()
+  async gihubAuth(): Promise<void> { }
+
+  @Get('github/callback')
+  @HttpCode(HttpStatus.OK)
+  @GitHubAuth()
+  async githubCallback(
+    @Req() req: Request,
+    @Authorized() user: UserEntity,
+  ): Promise<UserEntity> {
+    const { email, displayName: name, avatar } = user;
+    return this.githubCase.execute(req, email, name, avatar!);
+  }
+
+  @Get('google')
+  @HttpCode(HttpStatus.OK)
+  @GoogleAuth()
+  async googleAuth(): Promise<void> { }
+
+  @Get('google/callback')
+  @HttpCode(HttpStatus.OK)
+  @GoogleAuth()
+  async googleCallback(
+    @Req() req: Request,
+    @Authorized() user: UserEntity,
+  ): Promise<UserEntity> {
+    const { email, displayName: name, avatar } = user;
+    return this.googleCase.execute(req, email, name, avatar!);
   }
 }

@@ -5,20 +5,21 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
+import { Request } from 'express';
 import { UserRole } from 'src/core/domain';
 import { ROLES_KEY } from '../decorators';
-import { Request } from 'express';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
-  public constructor(private readonly reflector: Reflector) { }
+  constructor(private readonly reflector: Reflector) { }
 
-  public async canActivate(context: ExecutionContext): Promise<boolean> {
-    const roles = this.reflector.getAllAndOverride<UserRole>(ROLES_KEY, [
-      context.getHandler(),
-      context.getClass(),
+  async canActivate(ctx: ExecutionContext): Promise<boolean> {
+    const request: Request = ctx.switchToHttp().getRequest() as Request;
+
+    const roles: UserRole | null = this.reflector.getAllAndOverride(ROLES_KEY, [
+      ctx.getHandler(),
+      ctx.getClass(),
     ]);
-    const request: Request = context.switchToHttp().getRequest() as Request;
 
     if (!roles) return true;
 
