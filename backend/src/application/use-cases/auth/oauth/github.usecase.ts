@@ -1,8 +1,8 @@
 import { UserEntity } from 'src/core/domain';
-import { BaseAuthUseCase } from './base.usecase';
+import { BaseAuthUseCase } from '../base.usecase';
 import { ConflictError } from 'src/application/errors';
 
-export class GoogleUseCase extends BaseAuthUseCase {
+export class GitHubUseCase extends BaseAuthUseCase {
   async execute(
     req: any,
     email: string,
@@ -12,7 +12,7 @@ export class GoogleUseCase extends BaseAuthUseCase {
     const userExist: UserEntity | null = await this.userRepo.findByEmail(email);
 
     if (userExist) {
-      if (userExist.method === 'GOOGLE') {
+      if (userExist.method === 'GITHUB') {
         return await this.sessionPort.save(req, userExist);
       } else {
         throw new ConflictError(
@@ -26,7 +26,7 @@ export class GoogleUseCase extends BaseAuthUseCase {
       '',
       name,
       avatar,
-      'GOOGLE',
+      'GITHUB',
       true,
     );
 

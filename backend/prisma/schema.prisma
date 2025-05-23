@@ -35,13 +35,20 @@ model User {
 model Token {
   id String @id @default(uuid())
 
-  token     String   @unique
-  expiresIn DateTime @map("expires_in")
+  token     String    @unique
+  type      TokenType
+  expiresIn DateTime  @map("expires_in")
 
   userId String @map("user_id")
   user   User   @relation(fields: [userId], references: [id])
 
   @@map("tokens")
+}
+
+enum TokenType {
+  ACTIVATE
+  PASS_RECOVERY
+  TWO_FACTOR
 }
 
 enum UserRole {

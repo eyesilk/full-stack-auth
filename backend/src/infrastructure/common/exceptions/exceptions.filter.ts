@@ -8,8 +8,11 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Response } from 'express';
-import { NotFoundError } from 'rxjs';
-import { ConflictError, UnauthorizedError } from 'src/application/errors';
+import {
+  ConflictError,
+  NotFoundError,
+  UnauthorizedError,
+} from 'src/application/errors';
 
 @Catch()
 export class ExceptionsFilter implements ExceptionFilter {

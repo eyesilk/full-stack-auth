@@ -1,10 +1,9 @@
 import { TokenEntity, UserEntity } from 'src/core/domain';
-import { BaseAuthUseCase } from './base.usecase';
+import { BaseAuthUseCase } from '../base.usecase';
 import { ConflictError } from 'src/application/errors';
 
 export class RegisterUseCase extends BaseAuthUseCase {
   async execute(
-    req: any,
     name: string,
     email: string,
     password: string,
@@ -28,7 +27,10 @@ export class RegisterUseCase extends BaseAuthUseCase {
       false,
     );
 
-    const token: TokenEntity = await this.tokenRepo.save(newUser.id);
+    const token: TokenEntity = await this.tokenRepo.save(
+      newUser.id,
+      'ACTIVATE',
+    );
 
     await this.mailPort.sendActivation(newUser.email, token.token);
 

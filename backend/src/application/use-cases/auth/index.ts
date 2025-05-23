@@ -1,6 +1,6 @@
-export { RegisterUseCase } from './register.usecase';
-export { LoginUseCase } from './login.usecase';
-export { LogoutUseCase } from './logout.usecase';
-export { GitHubUseCase } from './github.usecase';
-export { GoogleUseCase } from './google.usecase';
-export { ConfirmationUseCase } from './confirmation.usecase';
+export { RegisterUseCase } from './auth/register.usecase';
+export { LoginUseCase } from './auth/login.usecase';
+export { LogoutUseCase } from './auth/logout.usecase';
+export { GitHubUseCase } from './oauth/github.usecase';
+export { GoogleUseCase } from './oauth/google.usecase';
+export { AccountConfirmationUseCase } from './verif/account-confirmation.usecase';

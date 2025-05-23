@@ -134,6 +134,7 @@ exports.Prisma.UserScalarFieldEnum = {
 exports.Prisma.TokenScalarFieldEnum = {
   id: 'id',
   token: 'token',
+  type: 'type',
   expiresIn: 'expiresIn',
   userId: 'userId'
 };
@@ -161,6 +162,12 @@ exports.AuthMethod = exports.$Enums.AuthMethod = {
   CREDENTIALS: 'CREDENTIALS',
   GOOGLE: 'GOOGLE',
   GITHUB: 'GITHUB'
+};
+
+exports.TokenType = exports.$Enums.TokenType = {
+  ACTIVATE: 'ACTIVATE',
+  PASS_RECOVERY: 'PASS_RECOVERY',
+  TWO_FACTOR: 'TWO_FACTOR'
 };
 
 exports.Prisma.ModelName = {

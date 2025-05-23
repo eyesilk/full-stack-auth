@@ -1,5 +1,5 @@
 import { UserEntity } from 'src/core/domain';
-import { BaseAuthUseCase } from './base.usecase';
+import { BaseAuthUseCase } from '../base.usecase';
 import { NotFoundError, UnauthorizedError } from 'src/application/errors';
 
 export class LoginUseCase extends BaseAuthUseCase {

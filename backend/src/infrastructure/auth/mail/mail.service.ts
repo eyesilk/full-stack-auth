@@ -15,7 +15,7 @@ export class MailService {
       to: email,
       subject: 'confirmation of registration',
       html: returnConfirmationAuthHtml(
-        `${this.configService.getOrThrow<string>('APPLICATION_URL')}/auth/confirmation/${token}`,
+        `${this.configService.getOrThrow<string>('APPLICATION_URL')}/verif/account/${token}`,
       ),
     });
   }

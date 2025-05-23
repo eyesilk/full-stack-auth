@@ -1,12 +1,9 @@
 import { Module } from '@nestjs/common';
-import { AuthController } from 'src/infrastructure/auth';
 import { HashModule } from 'src/infrastructure/auth/hash';
-import {
-  createAuthUseCaseProviders,
-} from './providers';
+import { createAuthUseCaseProviders } from './providers';
 import { SessionModule } from 'src/infrastructure/auth/session';
 import {
-  ConfirmationUseCase,
+  AccountConfirmationUseCase,
   GitHubUseCase,
   GoogleUseCase,
   LoginUseCase,
@@ -24,9 +21,14 @@ import {
 } from 'src/infrastructure/auth/strategies';
 import { MailModule } from 'src/infrastructure/auth/mail';
 import { TokenRepository } from 'src/infrastructure/auth/token';
+import {
+  AuthController,
+  OAuthContoller,
+  VerificationController,
+} from 'src/infrastructure/auth/controllers';
 
 @Module({
-  controllers: [AuthController],
+  controllers: [AuthController, OAuthContoller, VerificationController],
   providers: [
     UserRepository,
     TokenRepository,
@@ -38,7 +40,7 @@ import { TokenRepository } from 'src/infrastructure/auth/token';
       LogoutUseCase,
       GitHubUseCase,
       GoogleUseCase,
-      ConfirmationUseCase,
+      AccountConfirmationUseCase,
     ]),
   ],
   imports: [

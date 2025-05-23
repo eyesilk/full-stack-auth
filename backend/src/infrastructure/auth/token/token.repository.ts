@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Token } from 'prisma/__generated__';
-import { TokenEntity } from 'src/core/domain';
+import { TokenEntity, TokenType } from 'src/core/domain';
 import { ITokenRepository } from 'src/core/ports/token';
 import { PrismaService } from 'src/infrastructure/prisma';
 import { v4 as uuidv4 } from 'uuid';
@@ -9,10 +9,11 @@ import { v4 as uuidv4 } from 'uuid';
 export class TokenRepository implements ITokenRepository {
   constructor(private readonly prismaService: PrismaService) { }
 
-  async save(userId: string): Promise<TokenEntity> {
+  async save(userId: string, type: TokenType): Promise<TokenEntity> {
     const token: Token = await this.prismaService.token.create({
       data: {
         token: uuidv4(),
+        type,
         expiresIn: new Date(Date.now() + 60 * 60 * 1000),
         userId,
       },
@@ -42,6 +43,7 @@ export class TokenRepository implements ITokenRepository {
       token.id,
       token.token,
       token.expiresIn,
+      token.type,
       token.userId,
     );
   }
