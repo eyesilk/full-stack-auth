@@ -1,4 +1,4 @@
-import { UserEntity } from 'src/core/domain';
+import { TokenEntity, UserEntity } from 'src/core/domain';
 import { BaseAuthUseCase } from './base.usecase';
 import { ConflictError } from 'src/application/errors';
 
@@ -8,7 +8,7 @@ export class RegisterUseCase extends BaseAuthUseCase {
     name: string,
     email: string,
     password: string,
-  ): Promise<UserEntity> {
+  ): Promise<Record<string, string>> {
     const userExist: UserEntity | null = await this.userRepo.findByEmail(email);
 
     if (userExist) {
@@ -28,6 +28,10 @@ export class RegisterUseCase extends BaseAuthUseCase {
       false,
     );
 
-    return await this.sessionPort.save(req, newUser);
+    const token: TokenEntity = await this.tokenRepo.save(newUser.id);
+
+    await this.mailPort.sendActivation(newUser.email, token.token);
+
+    return { message: 'Confirm your account via the email we sent you.' };
   }
 }

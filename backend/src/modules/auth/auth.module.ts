@@ -1,9 +1,12 @@
 import { Module } from '@nestjs/common';
 import { AuthController } from 'src/infrastructure/auth';
 import { HashModule } from 'src/infrastructure/auth/hash';
-import { createAuthUseCaseProvider } from './providers';
+import {
+  createAuthUseCaseProviders,
+} from './providers';
 import { SessionModule } from 'src/infrastructure/auth/session';
 import {
+  ConfirmationUseCase,
   GitHubUseCase,
   GoogleUseCase,
   LoginUseCase,
@@ -19,22 +22,29 @@ import {
   GithubStrategy,
   GoogleStrategy,
 } from 'src/infrastructure/auth/strategies';
+import { MailModule } from 'src/infrastructure/auth/mail';
+import { TokenRepository } from 'src/infrastructure/auth/token';
 
 @Module({
   controllers: [AuthController],
   providers: [
     UserRepository,
+    TokenRepository,
     GithubStrategy,
     GoogleStrategy,
-    createAuthUseCaseProvider(RegisterUseCase),
-    createAuthUseCaseProvider(LoginUseCase),
-    createAuthUseCaseProvider(LogoutUseCase),
-    createAuthUseCaseProvider(GitHubUseCase),
-    createAuthUseCaseProvider(GoogleUseCase),
+    ...createAuthUseCaseProviders([
+      RegisterUseCase,
+      LoginUseCase,
+      LogoutUseCase,
+      GitHubUseCase,
+      GoogleUseCase,
+      ConfirmationUseCase,
+    ]),
   ],
   imports: [
     HashModule,
     SessionModule,
+    MailModule,
     GoogleRecaptchaModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: getRecaptchaConfig,

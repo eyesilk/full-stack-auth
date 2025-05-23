@@ -24,10 +24,24 @@ model User {
 
   method AuthMethod
 
+  tokens Token[]
+
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @map("updated_at")
 
   @@map("users")
+}
+
+model Token {
+  id String @id @default(uuid())
+
+  token     String   @unique
+  expiresIn DateTime @map("expires_in")
+
+  userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@map("tokens")
 }
 
 enum UserRole {
@@ -40,4 +54,3 @@ enum AuthMethod {
   GOOGLE
   GITHUB
 }
-

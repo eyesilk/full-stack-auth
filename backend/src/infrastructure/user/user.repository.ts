@@ -8,17 +8,18 @@ import { User } from 'prisma/__generated__';
 export class UserRepository implements IUserRepository {
   constructor(private readonly prismaService: PrismaService) { }
 
-  async findById(id: string): Promise<UserEntity> {
+  async findById(id: string): Promise<UserEntity | never> {
     const user: User | null = await this.prismaService.user.findUnique({
       where: {
         id,
       },
     });
 
-    if (!user)
+    if (!user) {
       throw new NotFoundException(
         'User not found. Please check the entered data.',
       );
+    }
 
     return this.returnUser(user);
   }
@@ -53,6 +54,25 @@ export class UserRepository implements IUserRepository {
         isVerified,
       },
     });
+
+    return this.returnUser(user);
+  }
+
+  async activate(id: string): Promise<UserEntity | never> {
+    const user: User | null = await this.prismaService.user.update({
+      where: {
+        id,
+      },
+      data: {
+        isVerified: true,
+      },
+    });
+
+    if (!user) {
+      throw new NotFoundException(
+        'User not found. Please check the entered data.',
+      );
+    }
 
     return this.returnUser(user);
   }

@@ -1,1 +1,1 @@
-export { createAuthUseCaseProvider } from './usecase.provider';
+export { createAuthUseCaseProviders } from './usecase.provider';

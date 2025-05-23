@@ -11,4 +11,5 @@ export interface IUserRepository {
     method: AuthMethod,
     isVerified: boolean,
   ): Promise<UserEntity>;
+  activate(id: string): Promise<UserEntity>;
 }

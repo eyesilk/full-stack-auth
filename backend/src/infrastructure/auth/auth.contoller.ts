@@ -4,6 +4,7 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  Param,
   Post,
   Req,
   Res,
@@ -14,6 +15,7 @@ import {
   RegisterUseCase,
   LoginUseCase,
   GoogleUseCase,
+  ConfirmationUseCase,
 } from 'src/application/use-cases/auth';
 import { LoginDto, RegisterDto } from './dto';
 import { Request, Response } from 'express';
@@ -30,6 +32,7 @@ export class AuthController {
     private readonly logoutCase: LogoutUseCase,
     private readonly githubCase: GitHubUseCase,
     private readonly googleCase: GoogleUseCase,
+    private readonly confirmationCase: ConfirmationUseCase,
   ) { }
 
   @Post('register')
@@ -38,7 +41,7 @@ export class AuthController {
   async register(
     @Req() req: Request,
     @Body() dto: RegisterDto,
-  ): Promise<UserEntity> {
+  ): Promise<Record<string, string>> {
     return this.registerCase.execute(req, dto.name, dto.email, dto.password);
   }
 
@@ -56,10 +59,20 @@ export class AuthController {
     res.send(true);
   }
 
+  @Get('confirmation/:token')
+  @HttpCode(HttpStatus.OK)
+  async confirmation(
+    @Req() req: Request,
+    @Param('token') token: string,
+  ): Promise<UserEntity> {
+    return this.confirmationCase.execute(req, token);
+  }
+
+  // github auth
   @Get('github')
   @HttpCode(HttpStatus.OK)
   @GitHubAuth()
-  async gihubAuth(): Promise<void> { }
+  async githubAuth(): Promise<void> { }
 
   @Get('github/callback')
   @HttpCode(HttpStatus.OK)
@@ -71,6 +84,8 @@ export class AuthController {
     const { email, displayName: name, avatar } = user;
     return this.githubCase.execute(req, email, name, avatar!);
   }
+
+  // google auth
 
   @Get('google')
   @HttpCode(HttpStatus.OK)

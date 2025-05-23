@@ -15,5 +15,6 @@ export class UserEntity {
     public readonly createdAt: Date,
     public readonly updatedAt: Date,
     public readonly avatar: string | null,
+    public readonly tokens?: string,
   ) { }
 }

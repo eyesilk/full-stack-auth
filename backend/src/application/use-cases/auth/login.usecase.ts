@@ -25,6 +25,12 @@ export class LoginUseCase extends BaseAuthUseCase {
       );
     }
 
+    if (!userExist.isVerified) {
+      throw new UnauthorizedError(
+        'Failed to log in to the account. Please confirm your account by the letter we sent to your email.',
+      );
+    }
+
     return await this.sessionPort.save(req, userExist);
   }
 }

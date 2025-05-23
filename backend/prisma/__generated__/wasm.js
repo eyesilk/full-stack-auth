@@ -131,6 +131,13 @@ exports.Prisma.UserScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.TokenScalarFieldEnum = {
+  id: 'id',
+  token: 'token',
+  expiresIn: 'expiresIn',
+  userId: 'userId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -157,7 +164,8 @@ exports.AuthMethod = exports.$Enums.AuthMethod = {
 };
 
 exports.Prisma.ModelName = {
-  User: 'User'
+  User: 'User',
+  Token: 'Token'
 };
 
 /**
