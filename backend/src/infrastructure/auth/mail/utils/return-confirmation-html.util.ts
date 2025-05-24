@@ -1,4 +1,10 @@
-export function returnConfirmationAuthHtml(link: string): string {
+export function returnConfirmationHtml(
+  link: string,
+  title: string,
+  descr: string,
+  subdescr: string,
+  button: string,
+): string {
   return `<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml"><head>
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
 <meta content="width=device-width" name="viewport">
@@ -343,7 +349,7 @@ display: inline !important;
 <table class="table-block" width="100%" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; padding: 0;">
 <tbody><tr style="vertical-align: top; text-align: left; padding: 0;" align="left">
 <td class="" style="word-break: break-word; -webkit-hyphens: none; -moz-hyphens: none; hyphens: none; border-collapse: collapse !important; vertical-align: top; text-align: left; width: 100%; color: #222222; font-family: Helvetica, Arial, sans-serif; font-weight: normal; font-size: 16px; background: transparent repeat center center; margin: 0; padding: 15px;" align="left" bgcolor="transparent" valign="top">
-<h1 style="text-align: center; color: #222222; font-family: Helvetica, Arial, sans-serif; font-weight: normal; font-size: 30px; line-height: 1.3; word-break: normal; margin: 0; padding: 0;" align="center"><span style="font-family: Roboto, Tahoma, sans-serif;"><strong>Account Confirmation</strong></span></h1>
+<h1 style="text-align: center; color: #222222; font-family: Helvetica, Arial, sans-serif; font-weight: normal; font-size: 30px; line-height: 1.3; word-break: normal; margin: 0; padding: 0;" align="center"><span style="font-family: Roboto, Tahoma, sans-serif;"><strong>${title}</strong></span></h1>
 </td>
 </tr>
 </tbody></table>
@@ -361,8 +367,8 @@ display: inline !important;
 <table class="table-block" width="100%" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; padding: 0;">
 <tbody><tr style="vertical-align: top; text-align: left; padding: 0;" align="left">
 <td class="" style="word-break: break-word; -webkit-hyphens: none; -moz-hyphens: none; hyphens: none; border-collapse: collapse !important; vertical-align: top; text-align: left; width: 100%; color: #222222; font-family: Helvetica, Arial, sans-serif; font-weight: normal; font-size: 16px; background: transparent repeat center center; margin: 0; padding: 40px 20px;" align="left" bgcolor="transparent" valign="top">
-<p style="text-align: center; color: #222222; font-family: Helvetica, Arial, sans-serif; font-weight: normal; font-size: 16px; line-height: 1.3; margin: 0 0 10px; padding: 0;" align="center"><span style="font-family: Roboto, Tahoma, sans-serif;">Please confirm your account by clicking the button below.</span></p>
-<p style="text-align: center; color: #222222; font-family: Helvetica, Arial, sans-serif; font-weight: normal; font-size: 16px; line-height: 1.3; margin: 0 0 10px; padding: 0;" align="center"><span style="font-family: Roboto, Tahoma, sans-serif;">This link will expire in 1 hour.</span></p>
+<p style="text-align: center; color: #222222; font-family: Helvetica, Arial, sans-serif; font-weight: normal; font-size: 16px; line-height: 1.3; margin: 0 0 10px; padding: 0;" align="center"><span style="font-family: Roboto, Tahoma, sans-serif;">${descr}</span></p>
+<p style="text-align: center; color: #222222; font-family: Helvetica, Arial, sans-serif; font-weight: normal; font-size: 16px; line-height: 1.3; margin: 0 0 10px; padding: 0;" align="center"><span style="font-family: Roboto, Tahoma, sans-serif;">${subdescr}</span></p>
 </td>
 </tr>
 </tbody></table>
@@ -383,14 +389,14 @@ display: inline !important;
 <v:roundrect arcsize='6%' fill='t' fillcolor='#008652' href='${link}' stroke='f' strokecolor='#00a062' strokeweight='1px' style='v-text-anchor:middle;width:171px;height:47px;mso-padding-alt:0;padding:13px 20px;' xmlns:v='urn:schemas-microsoft-com:vml' xmlns:w='urn:schemas-microsoft-com:office:word'>
 <w:anchorlock>
 <center style='color: #ffffff; font-family:sans-serif; font-size:13px; font-weight:bold; mso-line-height-rule:exactly; mso-text-raise:4px'>
- Confirm Account 
+${button}
 </center>
 </w:anchorlock>
 </v:roundrect>
 <![endif]-->
 <!--[if !mso]>
 <!---->
-<a href="${link}" style="line-height: 16px; color: #ffffff !important; font-size: 16px !important; display: inline-block; border-radius: 6px; -webkit-border-radius: 6px; -moz-border-radius: 6px; text-decoration: none; font-weight: bold; font-family: Helvetica, Arial, sans-serif; text-align: center; height: 100%; width: auto; background: #008652 repeat center center; padding: 13px 20px; border: 1px solid #00a062;"> Confirm Account </a>
+<a href="${link}" style="line-height: 16px; color: #ffffff !important; font-size: 16px !important; display: inline-block; border-radius: 6px; -webkit-border-radius: 6px; -moz-border-radius: 6px; text-decoration: none; font-weight: bold; font-family: Helvetica, Arial, sans-serif; text-align: center; height: 100%; width: auto; background: #008652 repeat center center; padding: 13px 20px; border: 1px solid #00a062;"> ${button} </a>
 <!-- <![endif]-->
 <!--[endif]---->
 </td>

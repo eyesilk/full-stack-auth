@@ -8,6 +8,8 @@ import {
   GoogleUseCase,
   LoginUseCase,
   LogoutUseCase,
+  PasswordRecoveryRequestUseCase,
+  PasswordRecoveryUseCase,
   RegisterUseCase,
 } from 'src/application/use-cases/auth';
 import { UserRepository } from 'src/infrastructure/user';
@@ -41,6 +43,8 @@ import {
       GitHubUseCase,
       GoogleUseCase,
       AccountConfirmationUseCase,
+      PasswordRecoveryRequestUseCase,
+      PasswordRecoveryUseCase,
     ]),
   ],
   imports: [

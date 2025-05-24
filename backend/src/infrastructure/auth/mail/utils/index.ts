@@ -1,1 +1,1 @@
-export { returnConfirmationAuthHtml } from './return-confirmation-auth-html.util';
+export { returnConfirmationHtml } from './return-confirmation-html.util';

@@ -12,4 +12,5 @@ export interface IUserRepository {
     isVerified: boolean,
   ): Promise<UserEntity>;
   activate(id: string): Promise<UserEntity>;
+  changePassword(id: string, password: string): Promise<UserEntity>;
 }

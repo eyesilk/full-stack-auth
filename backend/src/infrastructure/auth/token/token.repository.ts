@@ -22,10 +22,10 @@ export class TokenRepository implements ITokenRepository {
     return this.returnToken(token);
   }
 
-  async findByToken(tokenFiled: string): Promise<TokenEntity | never> {
+  async findByToken(tokenField: string): Promise<TokenEntity | never> {
     const token: Token | null = await this.prismaService.token.findUnique({
       where: {
-        token: tokenFiled,
+        token: tokenField,
       },
     });
 
@@ -36,6 +36,16 @@ export class TokenRepository implements ITokenRepository {
     }
 
     return this.returnToken(token);
+  }
+
+  async delete(token: string): Promise<boolean> {
+    await this.prismaService.token.delete({
+      where: {
+        token,
+      },
+    });
+
+    return true;
   }
 
   private returnToken(token: Token): TokenEntity {

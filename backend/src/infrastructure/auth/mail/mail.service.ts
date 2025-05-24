@@ -1,7 +1,7 @@
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { returnConfirmationAuthHtml } from './utils';
+import { returnConfirmationHtml } from './utils';
 
 @Injectable()
 export class MailService {
@@ -14,8 +14,26 @@ export class MailService {
     await this.mailerService.sendMail({
       to: email,
       subject: 'confirmation of registration',
-      html: returnConfirmationAuthHtml(
+      html: returnConfirmationHtml(
         `${this.configService.getOrThrow<string>('APPLICATION_URL')}/verif/account/${token}`,
+        'Account Confirmation',
+        'Please confirm your account by clicking the button below.',
+        'This link will expire in 1 hour.',
+        'Confirm Account',
+      ),
+    });
+  }
+
+  async sendPassRecover(email: string, token: string): Promise<void> {
+    await this.mailerService.sendMail({
+      to: email,
+      subject: 'password recovery',
+      html: returnConfirmationHtml(
+        `${this.configService.getOrThrow<string>('APPLICATION_URL')}/verif/password-recovery/${token}`,
+        'Password Recovery',
+        'You have requested password recovery. To do this, you need to click on the button below.',
+        'This link will expire in 1 hour.',
+        'Recover Password',
       ),
     });
   }

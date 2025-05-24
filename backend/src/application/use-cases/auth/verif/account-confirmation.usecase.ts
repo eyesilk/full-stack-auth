@@ -7,6 +7,8 @@ export class AccountConfirmationUseCase extends BaseAuthUseCase {
 
     const user: UserEntity = await this.userRepo.activate(tokenExist.userId);
 
+    await this.tokenRepo.delete(tokenExist.token);
+
     return await this.sessionPort.save(req, user);
   }
 }
