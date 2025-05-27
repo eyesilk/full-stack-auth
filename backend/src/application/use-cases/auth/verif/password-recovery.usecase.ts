@@ -12,7 +12,7 @@ export class PasswordRecoveryUseCase extends BaseAuthUseCase {
 
     const user: UserEntity = await this.userRepo.findById(tokenExist.userId);
 
-    if (user.method != 'CREDENTIALS') {
+    if (user.method !== 'CREDENTIALS') {
       throw new ConflictError(
         'Password recovery is not allowed, as you have registered through third-party services. Please log in to your account using the service through which you registered.',
       );

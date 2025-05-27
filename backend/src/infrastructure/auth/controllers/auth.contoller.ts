@@ -16,6 +16,7 @@ import { LoginDto, RegisterDto } from '../dto';
 import { Request, Response } from 'express';
 import { UserEntity } from 'src/core/domain';
 import { Recaptcha } from '@nestlab/google-recaptcha';
+import { Record } from 'prisma/__generated__/runtime/library';
 
 @Controller('auth')
 export class AuthController {
@@ -35,8 +36,11 @@ export class AuthController {
   @Post('login')
   @HttpCode(HttpStatus.OK)
   @Recaptcha()
-  async login(@Req() req: Request, @Body() dto: LoginDto): Promise<UserEntity> {
-    return this.loginCase.execute(req, dto.email, dto.password);
+  async login(
+    @Req() req: Request,
+    @Body() dto: LoginDto,
+  ): Promise<UserEntity | Record<string, string>> {
+    return this.loginCase.execute(req, dto.email, dto.password, dto.code);
   }
 
   @Post('logout')

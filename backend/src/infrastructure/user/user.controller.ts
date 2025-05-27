@@ -1,10 +1,25 @@
-import { Controller, Get, HttpCode, HttpStatus, Param } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Patch,
+} from '@nestjs/common';
 import { Authorization, Authorized } from '../common/decorators';
-import { GetProfileUseCase } from 'src/application/use-cases/user';
+import {
+  GetProfileUseCase,
+  UpdateProfileUseCase,
+} from 'src/application/use-cases/user';
+import { UpdateDto } from './dto';
 
 @Controller('user')
 export class UserController {
-  constructor(public readonly getProfileCase: GetProfileUseCase) { }
+  constructor(
+    public readonly getProfileCase: GetProfileUseCase,
+    public readonly updateProfileCase: UpdateProfileUseCase,
+  ) { }
 
   @Get('profile')
   @HttpCode(HttpStatus.OK)
@@ -18,5 +33,17 @@ export class UserController {
   @Authorization('ADMIN')
   async findById(@Param('id') id: string) {
     return this.getProfileCase.execute(id);
+  }
+
+  @Patch('update')
+  @HttpCode(HttpStatus.OK)
+  @Authorization()
+  async update(@Authorized('id') id: string, @Body() dto: UpdateDto) {
+    return this.updateProfileCase.execute(
+      id,
+      dto.name,
+      dto.email,
+      dto.twoFactor,
+    );
   }
 }

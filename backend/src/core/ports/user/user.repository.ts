@@ -11,6 +11,12 @@ export interface IUserRepository {
     method: AuthMethod,
     isVerified: boolean,
   ): Promise<UserEntity>;
+  update(
+    id: string,
+    email: string,
+    name: string,
+    twoFactor: boolean,
+  ): Promise<UserEntity>;
   activate(id: string): Promise<UserEntity>;
   changePassword(id: string, password: string): Promise<UserEntity>;
 }

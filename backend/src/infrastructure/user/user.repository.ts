@@ -58,6 +58,26 @@ export class UserRepository implements IUserRepository {
     return this.returnUser(user);
   }
 
+  async update(
+    id: string,
+    email: string,
+    name: string,
+    twoFactor: boolean,
+  ): Promise<UserEntity> {
+    const user: User = await this.prismaService.user.update({
+      where: {
+        id,
+      },
+      data: {
+        email,
+        displayName: name,
+        isTwoFactorEnabled: twoFactor,
+      },
+    });
+
+    return this.returnUser(user);
+  }
+
   async activate(id: string): Promise<UserEntity | never> {
     const user: User | null = await this.prismaService.user.update({
       where: {
