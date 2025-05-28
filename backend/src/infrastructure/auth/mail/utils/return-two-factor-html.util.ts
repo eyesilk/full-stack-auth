@@ -1,4 +1,4 @@
-export function returnTwoFactorHtml(code: number): string {
+export function returnTwoFactorHtml(code: string, descr: string): string {
   return `<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml"><head>
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
 <meta content="width=device-width" name="viewport">
@@ -361,7 +361,7 @@ display: inline !important;
 <table class="table-block" width="100%" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; padding: 0;">
 <tbody><tr style="vertical-align: top; text-align: left; padding: 0;" align="left">
 <td class="" style="word-break: break-word; -webkit-hyphens: none; -moz-hyphens: none; hyphens: none; border-collapse: collapse !important; vertical-align: top; text-align: left; width: 100%; color: #222222; font-family: Helvetica, Arial, sans-serif; font-weight: normal; font-size: 16px; background: transparent repeat center center; margin: 0; padding: 40px 20px;" align="left" bgcolor="transparent" valign="top">
-<p style="text-align: center; color: #222222; font-family: Helvetica, Arial, sans-serif; font-weight: normal; font-size: 16px; line-height: 1.3; margin: 0 0 10px; padding: 0;" align="center"><span style="font-family: Roboto, Tahoma, sans-serif;">You have logged in, to continue, enter the code below</span></p>
+<p style="text-align: center; color: #222222; font-family: Helvetica, Arial, sans-serif; font-weight: normal; font-size: 16px; line-height: 1.3; margin: 0 0 10px; padding: 0;" align="center"><span style="font-family: Roboto, Tahoma, sans-serif;">${descr}</span></p>
 <p style="text-align: center; color: #222222; font-family: Helvetica, Arial, sans-serif; font-weight: normal; font-size: 16px; line-height: 1.3; margin: 0 0 10px; padding: 0;" align="center"><span style="font-family: Roboto, Tahoma, sans-serif;">This code will expire in 1 hour.</span></p>
 </td>
 </tr>

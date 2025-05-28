@@ -44,6 +44,7 @@ export class UserController {
       dto.name,
       dto.email,
       dto.twoFactor,
+      dto.code,
     );
   }
 }

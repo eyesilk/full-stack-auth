@@ -1,4 +1,10 @@
-import { IsBoolean, IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class UpdateDto {
   @IsString({ message: 'Name should be a string.' })
@@ -13,4 +19,8 @@ export class UpdateDto {
   @IsBoolean({ message: 'Two-factor should be a boolean' })
   @IsNotEmpty({ message: 'Two-factor required.' })
   twoFactor: boolean;
+
+  @IsOptional()
+  @IsString()
+  code: string;
 }

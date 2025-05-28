@@ -38,11 +38,14 @@ export class MailService {
     });
   }
 
-  async sendTwoFactorCode(email: string, code: number): Promise<void> {
+  async sendTwoFactorCode(email: string, code: string): Promise<void> {
     await this.mailerService.sendMail({
       to: email,
       subject: 'Two-factor code',
-      html: returnTwoFactorHtml(code),
+      html: returnTwoFactorHtml(
+        code,
+        'You have submitted a request for a two-factor verification code.',
+      ),
     });
   }
 }
