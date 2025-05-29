@@ -3,9 +3,15 @@ import "./styles/globals.css";
 import localFont from "next/font/local";
 import AppProvider from "./providers/AppProvider";
 
-const JetBrainsNerd = localFont({
+const FigtreeFont = localFont({
   src: "./fonts/Figtree-VariableFont_wght.ttf",
-  variable: "--font-jetbrains",
+  variable: "--font-figtree",
+  display: "swap",
+});
+
+const DancingScript = localFont({
+  src: "./fonts/Pacifico-Regular.ttf",
+  variable: "--font-dancingscript",
   display: "swap",
 });
 
@@ -25,7 +31,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${JetBrainsNerd.variable} antialiased`}>
+      <body
+        className={`${FigtreeFont.variable} ${DancingScript.variable} antialiased`}
+      >
         <AppProvider>{children}</AppProvider>
       </body>
     </html>
