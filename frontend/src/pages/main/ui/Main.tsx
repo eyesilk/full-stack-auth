@@ -8,7 +8,7 @@ export default function Main() {
       <AnimateWrapper>
         <section className="h-screen min-h-[400px] w-full flex flex-col justify-center items-center px-6">
           <h1
-            className={`ds-dark sm:text-5xl text-4xl font-[500] text-white leading-tight md:text-6xl mb-7`}
+            className={`ds-dark sm:text-5xl text-4xl font-[500] text-white leading-tight md:text-6xl md:mb-7 mb-4`}
           >
             Simple registration <br />
             <strong className="text-(--shamrock) inline-block">
@@ -19,12 +19,12 @@ export default function Main() {
               clicks
             </strong>
           </h1>
-          <p className="ds-dark text-xs/snug text-pretty text-white md:text-base/relaxed sm:text-xs/snug mb-5 opacity-80">
+          <p className="ds-dark text-xs/snug text-pretty text-white md:text-base/relaxed sm:text-xs/snug md:mb-5 mb-3 opacity-80">
             The project is developed on <br /> Next + Nest using clean
             architecture principles <br />
             on the server and FSD on the client.
           </p>
-          <div className="mt-4 sm:mt-6 mb-15">
+          <div className="mt-4 sm:mt-6 md:mb-15 mb-10">
             <Link href="/auth/register" className="btn mr-4">
               Let's begin
             </Link>

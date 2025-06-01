@@ -4,7 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 
 body {
-  font-family: var(--font-figtree);
+  font-family: var(--font-figtree), sans-serif;
   background-color: #121212;
 }
 
@@ -18,11 +18,15 @@ body {
 
 @layer utilities {
   .btn {
-    @apply text-white border-1 border-[#138353] px-5 font-[400] md:text-base sm:text-sm text-xs bg-[#006239] rounded-sm cursor-pointer hover:brightness-125 transition-all inline-block py-2;
+    @apply text-white border-1 border-[#138353] px-5 font-[400] md:text-base sm:text-sm text-xs bg-[#006239] rounded-sm cursor-pointer hover:brightness-125 active:hover:brightness-125 transition-all inline-block py-2 touch-manipulation disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:brightness-100;
   }
 
   .btn-gray {
     @apply border-[#363636] bg-[#242424];
+  }
+
+  .btn-err {
+    @apply border-[#7f2315] bg-[#1d1412];
   }
 
   .ds-dark {
@@ -43,8 +47,16 @@ body {
   }
 
   .label-auth {
-    @apply text-[#a6a6a6] block mb-2 md:text-base sm:text-sm text-xs;
+    @apply text-[#a6a6a6] block mb-1 md:text-base sm:text-sm text-xs aria-invalid:text-[#e5484d];
   }
+
+  .top-center {
+    @apply top-1/2 -translate-y-1/2;
+  }
+}
+
+.flex-center {
+  @apply flex items-center justify-center;
 }
 
 @theme inline {

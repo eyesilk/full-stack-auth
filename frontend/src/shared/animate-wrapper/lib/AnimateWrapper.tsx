@@ -2,7 +2,12 @@
 
 import { PropsWithChildren, useEffect, useState } from "react";
 
-export default function AnimateWrapper({ children }: PropsWithChildren) {
+export default function AnimateWrapper({
+  children,
+  className,
+}: PropsWithChildren<{
+  className?: string;
+}>) {
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
   useEffect(() => {
@@ -11,7 +16,7 @@ export default function AnimateWrapper({ children }: PropsWithChildren) {
 
   return (
     <div
-      className={`w-full ${isLoaded ? "translate-y-0 opacity-100" : "translate-y-5 opacity-0"} transition-all duration-800`}
+      className={`w-full ${isLoaded ? "translate-y-0 opacity-100" : "translate-y-5 opacity-0"} transition-all duration-800 ${className}`}
     >
       {children}
     </div>

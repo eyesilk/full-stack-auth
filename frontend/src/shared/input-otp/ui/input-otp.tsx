@@ -21,7 +21,7 @@ function InputOTP({
     <OTPInput
       data-slot="input-otp"
       containerClassName={cn(
-        `flex items-center justify-center gap-2 has-disabled:opacity-${animate ? "100" : "50"} ${solid && "bg-[#121212] rounded-md"} `,
+        `flex-center gap-2 has-disabled:opacity-${animate ? "100" : "50"} ${solid && "bg-[#121212] rounded-md"} `,
         containerClassName,
       )}
       className={cn("disabled:cursor-not-allowed", className)}
@@ -70,7 +70,7 @@ function InputOTPSlot({
     >
       {char}
       {hasFakeCaret && (
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+        <div className="pointer-events-none absolute inset-0 flex-center">
           <div className="animate-caret-blink bg-white h-7 w-px duration-1000" />
         </div>
       )}
