@@ -32,7 +32,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${FigtreeFont.variable} ${DancingScript.variable} antialiased`}
+        className={`${FigtreeFont.variable} ${DancingScript.variable} antialiased selection:bg-(--shamrock) selection:text-[#1d1d1d]`}
       >
         <AppProvider>{children}</AppProvider>
       </body>
