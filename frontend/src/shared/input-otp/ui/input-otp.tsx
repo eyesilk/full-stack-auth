@@ -10,16 +10,18 @@ function InputOTP({
   className,
   containerClassName,
   animate,
+  solid,
   ...props
 }: React.ComponentProps<typeof OTPInput> & {
   containerClassName?: string;
   animate?: boolean;
+  solid?: boolean;
 }) {
   return (
     <OTPInput
       data-slot="input-otp"
       containerClassName={cn(
-        `flex items-center justify-center gap-2 has-disabled:opacity-${animate ? "100" : "50"}`,
+        `flex items-center justify-center gap-2 has-disabled:opacity-${animate ? "100" : "50"} ${solid && "bg-[#121212] rounded-md"} `,
         containerClassName,
       )}
       className={cn("disabled:cursor-not-allowed", className)}

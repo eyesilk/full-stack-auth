@@ -10,10 +10,10 @@ import { useOtpAnimate } from "../lib/useOtpAnimate";
 const value: string = "EYY-ESII-LK-------LO-0G1N1N-------CONFIRM-------";
 
 export default function EyesilkOTP() {
-  const { inputValue, activeSlot } = useOtpAnimate(value, 150);
+  const { inputValue, activeSlot } = useOtpAnimate(value, 170);
 
   return (
-    <InputOTP maxLength={7} value={inputValue} disabled animate>
+    <InputOTP maxLength={7} value={inputValue} disabled animate solid>
       <InputOTPGroup>
         <InputOTPSlot index={0} active={activeSlot === 0} />
         <InputOTPSlot index={1} active={activeSlot === 1} />

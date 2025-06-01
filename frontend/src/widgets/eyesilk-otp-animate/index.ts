@@ -1,1 +1,1 @@
-export * from "./ui/EyesilkOTP";
+export { default as EyesilkOTP } from "./ui/EyesilkOTP";

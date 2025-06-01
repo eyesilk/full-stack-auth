@@ -18,11 +18,32 @@ body {
 
 @layer utilities {
   .btn {
-    @apply text-white border-1 border-[#138353] px-5 py-2 font-[400] md:text-base sm:text-sm text-xs bg-[#006239] rounded-sm cursor-pointer hover:brightness-125 transition-all;
+    @apply text-white border-1 border-[#138353] px-5 font-[400] md:text-base sm:text-sm text-xs bg-[#006239] rounded-sm cursor-pointer hover:brightness-125 transition-all inline-block py-2;
   }
 
   .btn-gray {
     @apply border-[#363636] bg-[#242424];
+  }
+
+  .ds-dark {
+    @apply drop-shadow;
+    filter: drop-shadow(0 0 18px rgba(18, 18, 18, 1));
+  }
+
+  .bg-plaid {
+    background-color: #121212;
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .bg-drk-gray {
+    background-color: #0f0f0f;
+  }
+
+  .label-auth {
+    @apply text-[#a6a6a6] block mb-2 md:text-base sm:text-sm text-xs;
   }
 }
 

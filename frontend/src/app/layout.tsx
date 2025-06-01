@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./styles/globals.css";
 import localFont from "next/font/local";
-import AppProvider from "./providers/AppProvider";
+import { AppProvider } from "./providers";
 
 const FigtreeFont = localFont({
   src: "./fonts/Figtree-VariableFont_wght.ttf",
