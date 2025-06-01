@@ -3,9 +3,8 @@
 import { Input } from "@/shared/input";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { BsEyeSlash } from "react-icons/bs";
+import { BsEyeSlash, BsEye } from "react-icons/bs";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FaEye } from "react-icons/fa";
 import { schema } from "@/widgets/auth-strategies/lib/register.schema";
 
 type RegisterForm = {
@@ -86,7 +85,7 @@ export default function RegisterCard() {
               className={errors.password ? "text-[#e5484d]" : "text-[#737373]"}
             />
           ) : (
-            <FaEye
+            <BsEye
               className={errors.password ? "text-[#e5484d]" : "text-[#737373]"}
             />
           )}
