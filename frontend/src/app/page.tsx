@@ -1,5 +1,5 @@
 import { Main } from "@/page/main";
 
 export default function Home() {
-  return <Main />;
+  return <div>123</div>;
 }
