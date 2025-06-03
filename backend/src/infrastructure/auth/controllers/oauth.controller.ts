@@ -1,8 +1,16 @@
-import { Controller, Get, HttpCode, HttpStatus, Req } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Req,
+  Res,
+} from '@nestjs/common';
 import { GitHubAuth, GoogleAuth } from '../decorators';
 import { Authorized } from 'src/infrastructure/common/decorators';
 import { UserEntity } from 'src/core/domain';
 import { GitHubUseCase, GoogleUseCase } from 'src/application/use-cases/auth';
+import { Response } from 'express';
 
 @Controller('oauth')
 export class OAuthContoller {
@@ -22,9 +30,11 @@ export class OAuthContoller {
   async githubCallback(
     @Req() req: Request,
     @Authorized() user: UserEntity,
-  ): Promise<UserEntity> {
+    @Res() res: Response,
+  ): Promise<void> {
     const { email, displayName: name, avatar } = user;
-    return this.githubCase.execute(req, email, name, avatar!);
+    this.githubCase.execute(req, email, name, avatar!);
+    res.redirect('http://localhost:3000/auth/register');
   }
 
   @Get('google')

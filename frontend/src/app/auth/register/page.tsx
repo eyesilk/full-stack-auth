@@ -1,4 +1,4 @@
-import { Register } from "@/pages/register";
+import { Register } from "@/page/register";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

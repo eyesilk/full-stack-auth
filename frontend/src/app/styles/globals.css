@@ -55,6 +55,12 @@ body {
   }
 }
 
+@media screen and (min-device-width: 320px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 2) {
+  .ios-tracking {
+    letter-spacing: 0.09em;
+  }
+}
+
 .flex-center {
   @apply flex items-center justify-center;
 }

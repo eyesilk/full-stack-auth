@@ -1,17 +1,16 @@
 "use client";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { FC, ReactNode } from "react";
-
-interface AppProviderProps {
-  children: ReactNode;
-}
+import { PropsWithChildren } from "react";
+import { AlertProvider } from "./AlertProvider";
 
 const queryClient = new QueryClient();
 
-export const AppProvider: FC<AppProviderProps> = ({ children }) => {
+export const AppProvider = ({ children }: PropsWithChildren) => {
   return (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    <AlertProvider>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    </AlertProvider>
   );
 };
 

@@ -2,6 +2,7 @@ import { AnimateWrapper } from "@/shared/animate-wrapper";
 import { AuthStrategies } from "@/widgets/auth-strategies";
 import { RegisterCard } from "@/widgets/registration-card";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Register() {
   return (
@@ -21,7 +22,13 @@ export default function Register() {
               </strong>
             </h1>
             <h2 className="sm:text-base text-sm font-[500] text-[#a8a8a8] leading-tight md:text-lg md:mb-6 mb-4 block w-full border-b-1 border-[#363636] pb-4">
-              Create a new account
+              Create a new account or{" "}
+              <Link
+                href="/auth/login"
+                className="text-(--shamrock) hover:underline"
+              >
+                login
+              </Link>
             </h2>
             <AuthStrategies />
             <RegisterCard />

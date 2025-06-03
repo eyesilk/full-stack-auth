@@ -1,3 +1,4 @@
+import { Login } from "@/page/login";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -9,5 +10,5 @@ export const metadata: Metadata = {
 };
 
 export default function LognPage() {
-  return <div className="btn">login</div>;
+  return <Login />;
 }

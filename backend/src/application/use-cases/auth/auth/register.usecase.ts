@@ -34,6 +34,8 @@ export class RegisterUseCase extends BaseAuthUseCase {
 
     await this.mailPort.sendActivation(newUser.email, token.token);
 
-    return { message: 'Confirm your account via the email we sent you.' };
+    return {
+      message: 'Success. Confirm your account via the email we sent you.',
+    };
   }
 }

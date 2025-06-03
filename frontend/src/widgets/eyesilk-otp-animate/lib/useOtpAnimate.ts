@@ -1,4 +1,5 @@
 import { RefObject, useEffect, useRef, useState } from "react";
+import { v4 as uuid } from "uuid";
 
 const delay = (ms: number): Promise<void> => {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -8,11 +9,11 @@ export const useOtpAnimate = (value: string, ms: number) => {
   const [inputValue, setInputValue] = useState<string>("");
   const [activeSlot, setActiveSlot] = useState<number>(0);
   const isActiveAnimate = useRef<boolean>(true);
-  const animationId = useRef<number>(0);
+  const animationId = useRef<string>("");
 
   const animate = async (
     isActiveAnimate: RefObject<boolean>,
-    currentId: number,
+    currentId: string,
   ): Promise<never | void> => {
     while (isActiveAnimate.current) {
       for (let i = 0; i < value.length; i++) {
@@ -36,14 +37,14 @@ export const useOtpAnimate = (value: string, ms: number) => {
   };
 
   useEffect(() => {
-    const id: number = Date.now();
+    const id: string = uuid();
     isActiveAnimate.current = true;
     animationId.current = id;
     animate(isActiveAnimate, id);
 
     return () => {
       isActiveAnimate.current = false;
-      animationId.current = -1;
+      animationId.current = "no_id";
       setInputValue("");
       setActiveSlot(0);
     };

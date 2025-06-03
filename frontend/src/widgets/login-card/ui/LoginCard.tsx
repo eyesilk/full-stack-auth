@@ -5,45 +5,32 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { BsEyeSlash, BsEye } from "react-icons/bs";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRegister } from "@/features/auth";
-import { schema } from "../lib/register.schema";
 import { Loader2Icon } from "lucide-react";
-import { RegisterForm } from "@/entities/auth/model/registartionForm.type";
+import { schema } from "../lib/login.schema";
+import { LoginForm } from "@/entities/auth/model/loginForm.type";
+import { useLogin } from "@/features/auth";
 
-export default function RegisterCard() {
+export default function LoginCard() {
   const [isVisible, setIsVisible] = useState<boolean>(false);
-  const { mutateAsync, isPending } = useRegister();
+  const { mutateAsync, isPending } = useLogin();
 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors, isValid, isDirty },
-  } = useForm<RegisterForm>({
+  } = useForm<LoginForm>({
     mode: "onTouched",
     resolver: zodResolver(schema),
   });
 
-  const submit: SubmitHandler<RegisterForm> = async (data): Promise<void> => {
+  const submit: SubmitHandler<LoginForm> = async (data): Promise<void> => {
     await mutateAsync(data);
     reset();
   };
 
   return (
     <form className="w-full" onSubmit={handleSubmit(submit)}>
-      <label htmlFor="name" className="label-auth" aria-invalid={!!errors.name}>
-        {errors.name ? errors.name.message : "Name"}
-      </label>
-      <div className="relative w-full">
-        <Input
-          className="md:mb-4 mb-3"
-          placeholder="eyesilk"
-          type="name"
-          id="name"
-          aria-invalid={!!errors.name}
-          {...register("name")}
-        />
-      </div>
       <label
         htmlFor="email"
         className="label-auth"
@@ -84,7 +71,7 @@ export default function RegisterCard() {
           )}
         </button>
         <Input
-          className="md:mb-4 mb-3"
+          className="md:mb-8 mb-6"
           placeholder="⦁ ⦁ ⦁ ⦁ ⦁ ⦁ ⦁"
           type={isVisible ? "text" : "password"}
           id="password"
@@ -93,24 +80,6 @@ export default function RegisterCard() {
           {...register("password")}
         />
       </div>
-      <label
-        htmlFor="passwordRepeat"
-        className="label-auth"
-        aria-invalid={!!errors.passwordRepeat}
-      >
-        {errors.passwordRepeat
-          ? errors.passwordRepeat.message
-          : "Repeat the password"}
-      </label>
-      <Input
-        className="md:mb-8 mb-6"
-        placeholder="⦁ ⦁ ⦁ ⦁ ⦁ ⦁ ⦁"
-        type={isVisible ? "text" : "password"}
-        id="passwordRepeat"
-        aria-invalid={!!errors.passwordRepeat}
-        required
-        {...register("passwordRepeat")}
-      />
       <button
         className="btn w-full"
         type="submit"
@@ -119,7 +88,7 @@ export default function RegisterCard() {
         {isPending && (
           <Loader2Icon className="animate-spin inline mr-1 scale-85" />
         )}
-        Sign up
+        Sign in
       </button>
     </form>
   );
