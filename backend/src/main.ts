@@ -34,13 +34,9 @@ async function bootstrap() {
       saveUninitialized: false,
       cookie: {
         maxAge: ms(config.getOrThrow<StringValue>('SESSION_MAX_AGE')),
-        // httpOnly: parseBoolean(config.getOrThrow<string>('SESSION_HTTP_ONLY')),
-        // secure: parseBoolean(config.getOrThrow<string>('SESSION_SECURE')),
-        // sameSite: config.getOrThrow<'lax' | 'none'>('SESSION_SAMESITE'),
-        // path: '/',
-        httpOnly: true,
-        secure: true,
-        sameSite: 'none',
+        httpOnly: parseBoolean(config.getOrThrow<string>('SESSION_HTTP_ONLY')),
+        secure: parseBoolean(config.getOrThrow<string>('SESSION_SECURE')),
+        sameSite: config.getOrThrow<'lax' | 'none'>('SESSION_SAMESITE'),
         path: '/',
       },
       store: new RedisStore({

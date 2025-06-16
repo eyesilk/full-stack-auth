@@ -17,7 +17,7 @@ export class UserRepository implements IUserRepository {
 
     if (!user) {
       throw new NotFoundException(
-        'User not found. Please check the entered data.',
+        'User not found. Please check the entered data.sdas',
       );
     }
 

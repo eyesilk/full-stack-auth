@@ -13,6 +13,8 @@ import {
   UpdateProfileUseCase,
 } from 'src/application/use-cases/user';
 import { UpdateDto } from './dto';
+import { UserEntity } from 'src/core/domain';
+import { Record } from 'prisma/__generated__/runtime/library';
 
 @Controller('user')
 export class UserController {
@@ -21,24 +23,28 @@ export class UserController {
     public readonly updateProfileCase: UpdateProfileUseCase,
   ) { }
 
+
   @Get('profile')
   @HttpCode(HttpStatus.OK)
   @Authorization()
-  async profile(@Authorized('id') userId: string) {
+  async profile(@Authorized('id') userId: string): Promise<UserEntity> {
     return this.getProfileCase.execute(userId);
   }
 
   @Get('by-id/:id')
   @HttpCode(HttpStatus.OK)
   @Authorization('ADMIN')
-  async findById(@Param('id') id: string) {
+  async findById(@Param('id') id: string): Promise<UserEntity> {
     return this.getProfileCase.execute(id);
   }
 
   @Patch('update')
   @HttpCode(HttpStatus.OK)
   @Authorization()
-  async update(@Authorized('id') id: string, @Body() dto: UpdateDto) {
+  async update(
+    @Authorized('id') id: string,
+    @Body() dto: UpdateDto,
+  ): Promise<UserEntity | Record<string, string>> {
     return this.updateProfileCase.execute(
       id,
       dto.name,

@@ -1,18 +1,24 @@
 import { useMutation } from "@tanstack/react-query";
 import AuthApi from "../authApi";
 import { alertStore } from "@/app/providers/AlertProvider";
-import { User } from "@/entities/auth";
+import { useRouter } from "next/navigation";
 import { setSessionStorage } from "../../lib/setSessionStorage";
 
-export const useLogin = () => {
+export const useGitHubLogin = () => {
+  const router = useRouter();
+
   return useMutation({
-    mutationFn: AuthApi.login,
-    onSuccess: (data: User) => {
+    mutationFn: AuthApi.validateGitHub,
+    onSuccess: (data) => {
       const { id, email, displayName, avatar } = data;
       setSessionStorage(id, email, displayName, avatar);
+      router.push("/auth/register");
     },
     onError: (err: any) => {
       alertStore.setError(err.response.data.message as string);
+      setTimeout(() => {
+        router.push("/auth/register");
+      }, 3000);
     },
   });
 };

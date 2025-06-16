@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./styles/globals.css";
 import localFont from "next/font/local";
 import { AppProvider } from "./providers";
+import NextTopLoader from "nextjs-toploader";
 
 const FigtreeFont = localFont({
   src: "./fonts/Figtree-VariableFont_wght.ttf",
@@ -34,7 +35,13 @@ export default function RootLayout({
       <body
         className={`${FigtreeFont.variable} ${DancingScript.variable} antialiased selection:bg-(--shamrock) selection:text-[#1d1d1d]`}
       >
-        <AppProvider>{children}</AppProvider>
+        <AppProvider>
+          <NextTopLoader
+            color="#3ecf8e"
+            shadow="0 0 0 #3ecf8e, 0 0 0 #3ecf8e"
+          />
+          {children}
+        </AppProvider>
       </body>
     </html>
   );

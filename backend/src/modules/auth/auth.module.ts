@@ -4,6 +4,7 @@ import { createAuthUseCaseProviders } from './providers';
 import { SessionModule } from 'src/infrastructure/auth/session';
 import {
   AccountConfirmationUseCase,
+  CheckEmailExistUseCase,
   GitHubUseCase,
   GoogleUseCase,
   LoginUseCase,
@@ -28,6 +29,8 @@ import {
   OAuthContoller,
   VerificationController,
 } from 'src/infrastructure/auth/controllers';
+import { InterceptorModule } from 'src/infrastructure/auth/interceptor';
+import { GitHubLoginUseCase } from 'src/application/use-cases/auth/oauth/github-login.usecase';
 
 @Module({
   controllers: [AuthController, OAuthContoller, VerificationController],
@@ -45,12 +48,15 @@ import {
       AccountConfirmationUseCase,
       PasswordRecoveryRequestUseCase,
       PasswordRecoveryUseCase,
+      CheckEmailExistUseCase,
+      GitHubLoginUseCase,
     ]),
   ],
   imports: [
     HashModule,
     SessionModule,
     MailModule,
+    InterceptorModule,
     GoogleRecaptchaModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: getRecaptchaConfig,

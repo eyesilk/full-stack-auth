@@ -6,3 +6,4 @@ export { GoogleUseCase } from './oauth/google.usecase';
 export { AccountConfirmationUseCase } from './verif/account-confirmation.usecase';
 export { PasswordRecoveryRequestUseCase } from './verif/password-recovery-request.usecase';
 export { PasswordRecoveryUseCase } from './verif/password-recovery.usecase';
+export { CheckEmailExistUseCase } from './oauth/check-email-exist.usecase.ts';
