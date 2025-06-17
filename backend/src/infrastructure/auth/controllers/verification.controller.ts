@@ -7,15 +7,17 @@ import {
   Param,
   Post,
   Req,
+  Res,
 } from '@nestjs/common';
 import {
   AccountConfirmationUseCase,
   PasswordRecoveryRequestUseCase,
   PasswordRecoveryUseCase,
 } from 'src/application/use-cases/auth';
-import { UserEntity } from 'src/core/domain';
 import { PasswordRecoveryDto, PasswordRecoveryRequestDto } from '../dto';
 import { Record } from 'prisma/__generated__/runtime/library';
+import { Response } from 'express';
+import { ConfigService } from '@nestjs/config';
 
 @Controller('verif')
 export class VerificationController {
@@ -23,15 +25,21 @@ export class VerificationController {
     private readonly accountConfirmationCase: AccountConfirmationUseCase,
     private readonly passwordRecReqCase: PasswordRecoveryRequestUseCase,
     private readonly passwordRecCase: PasswordRecoveryUseCase,
+    private readonly configService: ConfigService,
   ) { }
 
   @Get('account/:token')
   @HttpCode(HttpStatus.OK)
   async account(
     @Req() req: Request,
-    @Param('token') token: string,
-  ): Promise<UserEntity> {
-    return this.accountConfirmationCase.execute(req, token);
+    @Res() res: Response,
+    @Param('token')
+    token: string,
+  ): Promise<void> {
+    this.accountConfirmationCase.execute(req, token);
+    res.redirect(
+      `${this.configService.getOrThrow<string>('ALLOWED_ORIGIN')}/auth/login`,
+    );
   }
 
   @Post('password-recovery/request')

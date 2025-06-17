@@ -39,6 +39,7 @@ import { InterceptorModule } from 'src/infrastructure/auth/interceptor';
     TokenRepository,
     GithubStrategy,
     GoogleStrategy,
+    ConfigService,
     ...createAuthUseCaseProviders([
       RegisterUseCase,
       LoginUseCase,
@@ -57,6 +58,7 @@ import { InterceptorModule } from 'src/infrastructure/auth/interceptor';
     SessionModule,
     MailModule,
     InterceptorModule,
+    ConfigModule,
     GoogleRecaptchaModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: getRecaptchaConfig,

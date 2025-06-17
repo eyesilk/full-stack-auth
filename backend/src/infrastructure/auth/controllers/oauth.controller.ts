@@ -18,6 +18,7 @@ import {
   GoogleUseCase,
 } from 'src/application/use-cases/auth';
 import { Response } from 'express';
+import { ConfigService } from '@nestjs/config';
 
 @Controller('oauth')
 export class OAuthContoller {
@@ -26,6 +27,7 @@ export class OAuthContoller {
     private readonly googleCase: GoogleUseCase,
     private readonly gitHubLoginCase: GitHubLoginUseCase,
     private readonly googleLoginCase: GoogleLoginUseCase,
+    private readonly configService: ConfigService,
   ) { }
 
   @Post('github-login/:token')
@@ -62,7 +64,7 @@ export class OAuthContoller {
     const { email, displayName: name, avatar, accessToken } = user;
     this.githubCase.execute(req, email, name, avatar!);
     res.redirect(
-      `http://localhost:3000/auth/validate/github?token=${accessToken}`,
+      `${this.configService.getOrThrow<string>('ALLOWED_ORIGIN')}/auth/validate/github?token=${accessToken}`,
     );
   }
 
@@ -82,7 +84,7 @@ export class OAuthContoller {
     const { email, displayName: name, avatar, accessToken } = user;
     this.googleCase.execute(req, email, name, avatar!);
     res.redirect(
-      `http://localhost:3000/auth/validate/google?token=${accessToken}`,
+      `${this.configService.getOrThrow<string>('ALLOWED_ORIGIN')}/auth/validate/google?token=${accessToken}`,
     );
   }
 }
