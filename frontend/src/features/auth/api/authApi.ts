@@ -1,7 +1,6 @@
 import { LoginForm } from "@/entities/auth/model/loginForm.type";
 import { RegisterForm } from "@/entities/auth/model/registartionForm.type";
 import { axios as apiAxios } from "@/shared/utils";
-import axios from "axios";
 
 export default class AuthApi {
   static async registration(registrationForm: RegisterForm) {
@@ -16,27 +15,14 @@ export default class AuthApi {
     return data;
   }
 
-  static async validateGitHub(accessToken: string) {
-    const { data: gitHubEmails } = await axios.get(
-      "https://api.github.com/user/emails",
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          Accept: "application/vnd.github+json",
-        },
-      },
-    );
+  static async gitHubLogin(accessToken: string) {
+    const { data } = await apiAxios.post(`/oauth/github-login/${accessToken}`);
 
-    const email: string = gitHubEmails[0].email;
+    return data;
+  }
 
-    await apiAxios.post("/oauth/email-exist-github", {
-      email,
-    });
-
-    const { data } = await apiAxios.post("/oauth/github-login", {
-      email,
-      accessToken,
-    });
+  static async googleLogin(accessToken: string) {
+    const { data } = await apiAxios.post(`/oauth/google-login/${accessToken}`);
 
     return data;
   }

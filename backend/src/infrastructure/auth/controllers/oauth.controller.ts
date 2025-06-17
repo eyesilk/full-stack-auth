@@ -1,9 +1,9 @@
 import {
-  Body,
   Controller,
   Get,
   HttpCode,
   HttpStatus,
+  Param,
   Post,
   Req,
   Res,
@@ -12,39 +12,38 @@ import { GitHubAuth, GoogleAuth } from '../decorators';
 import { Authorized } from 'src/infrastructure/common/decorators';
 import { UserEntity } from 'src/core/domain';
 import {
-  CheckEmailExistUseCase,
+  GitHubLoginUseCase,
   GitHubUseCase,
+  GoogleLoginUseCase,
   GoogleUseCase,
 } from 'src/application/use-cases/auth';
 import { Response } from 'express';
-import { EmailExistDto, OAuthLoginDto } from '../dto';
-import { GitHubLoginUseCase } from 'src/application/use-cases/auth/oauth/github-login.usecase';
 
 @Controller('oauth')
 export class OAuthContoller {
   constructor(
     private readonly githubCase: GitHubUseCase,
     private readonly googleCase: GoogleUseCase,
-    private readonly checkEmailExistCase: CheckEmailExistUseCase,
     private readonly gitHubLoginCase: GitHubLoginUseCase,
+    private readonly googleLoginCase: GoogleLoginUseCase,
   ) { }
 
-  @Post('email-exist-github')
-  @HttpCode(HttpStatus.OK)
-  async checkUserExistByEmailGitHub(
-    @Body() dto: EmailExistDto,
-  ): Promise<boolean> {
-    return this.checkEmailExistCase.execute(dto.email, 'GITHUB');
-  }
-
-  @Post('github-login')
+  @Post('github-login/:token')
   @HttpCode(HttpStatus.OK)
   async gitHubLogin(
-    @Body() dto: OAuthLoginDto,
+    @Param('token') token: string,
     @Req() req: Request,
   ): Promise<UserEntity> {
-    const { email, accessToken } = dto;
-    return this.gitHubLoginCase.execute(email, accessToken, req);
+    return this.gitHubLoginCase.execute(token, req);
+  }
+
+  @Post('google-login/:token')
+  @HttpCode(HttpStatus.OK)
+  async googleLogin(
+    @Param('token') token: string,
+    @Req() req: Request,
+  ): Promise<UserEntity> {
+    return this.googleLoginCase.execute(token, req);
   }
 
   @Get('github')
@@ -77,9 +76,13 @@ export class OAuthContoller {
   @GoogleAuth()
   async googleCallback(
     @Req() req: Request,
-    @Authorized() user: UserEntity,
+    @Authorized() user: UserEntity & { accessToken: string },
+    @Res() res: Response,
   ): Promise<void> {
-    const { email, displayName: name, avatar } = user;
+    const { email, displayName: name, avatar, accessToken } = user;
     this.googleCase.execute(req, email, name, avatar!);
+    res.redirect(
+      `http://localhost:3000/auth/validate/google?token=${accessToken}`,
+    );
   }
 }

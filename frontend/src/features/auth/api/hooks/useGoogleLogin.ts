@@ -4,11 +4,11 @@ import { alertStore } from "@/app/providers/AlertProvider";
 import { useRouter } from "next/navigation";
 import { setSessionStorage } from "../../lib/setSessionStorage";
 
-export const useGitHubLogin = () => {
+export const useGoogleLogin = () => {
   const router = useRouter();
 
   return useMutation({
-    mutationFn: AuthApi.gitHubLogin,
+    mutationFn: AuthApi.googleLogin,
     onSuccess: (data) => {
       const { id, email, displayName, avatar } = data;
       setSessionStorage(id, email, displayName, avatar);

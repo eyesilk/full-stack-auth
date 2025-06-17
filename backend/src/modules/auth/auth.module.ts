@@ -4,8 +4,9 @@ import { createAuthUseCaseProviders } from './providers';
 import { SessionModule } from 'src/infrastructure/auth/session';
 import {
   AccountConfirmationUseCase,
-  CheckEmailExistUseCase,
+  GitHubLoginUseCase,
   GitHubUseCase,
+  GoogleLoginUseCase,
   GoogleUseCase,
   LoginUseCase,
   LogoutUseCase,
@@ -30,7 +31,6 @@ import {
   VerificationController,
 } from 'src/infrastructure/auth/controllers';
 import { InterceptorModule } from 'src/infrastructure/auth/interceptor';
-import { GitHubLoginUseCase } from 'src/application/use-cases/auth/oauth/github-login.usecase';
 
 @Module({
   controllers: [AuthController, OAuthContoller, VerificationController],
@@ -48,7 +48,7 @@ import { GitHubLoginUseCase } from 'src/application/use-cases/auth/oauth/github-
       AccountConfirmationUseCase,
       PasswordRecoveryRequestUseCase,
       PasswordRecoveryUseCase,
-      CheckEmailExistUseCase,
+      GoogleLoginUseCase,
       GitHubLoginUseCase,
     ]),
   ],

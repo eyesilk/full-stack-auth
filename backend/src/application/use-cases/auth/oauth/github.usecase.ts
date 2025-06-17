@@ -7,14 +7,15 @@ export class GitHubUseCase extends BaseAuthUseCase {
     email: string,
     name: string,
     avatar: string,
-  ): Promise<UserEntity | null> {
+  ): Promise<void> {
     const userExist: UserEntity | null = await this.userRepo.findByEmail(email);
 
     if (userExist) {
       if (userExist.method === 'GITHUB') {
-        return await this.sessionPort.save(req, userExist);
+        await this.sessionPort.save(req, userExist);
+        return;
       } else {
-        return null;
+        return;
       }
     }
 
@@ -27,6 +28,7 @@ export class GitHubUseCase extends BaseAuthUseCase {
       true,
     );
 
-    return await this.sessionPort.save(req, newUser);
+    await this.sessionPort.save(req, newUser);
+    return;
   }
 }

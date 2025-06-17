@@ -39,6 +39,7 @@ export default function RootLayout({
           <NextTopLoader
             color="#3ecf8e"
             shadow="0 0 0 #3ecf8e, 0 0 0 #3ecf8e"
+            height={2}
           />
           {children}
         </AppProvider>

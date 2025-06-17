@@ -5,7 +5,7 @@ import { Loader } from "@/shared/loader";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
-export default function GitHubValidate() {
+export default function GitHubLogin() {
   const searchParams = useSearchParams();
   const token: string | null = searchParams.get("token");
   const { mutate } = useGitHubLogin();

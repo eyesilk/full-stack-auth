@@ -1,5 +1,4 @@
-import { GitHubValidate } from "@/page/github-validate";
-import { Loader } from "@/shared/loader";
+import { GitHubLogin } from "@/page/github-login";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -12,5 +11,5 @@ export const metadata: Metadata = {
 };
 
 export default function GitHubValidatePage() {
-  return <GitHubValidate />;
+  return <GitHubLogin />;
 }
