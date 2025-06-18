@@ -18,7 +18,7 @@ body {
 
 @layer utilities {
   .btn {
-    @apply text-white border-1 border-[#138353] px-5 font-[400] md:text-base sm:text-sm text-xs bg-[#006239] rounded-sm cursor-pointer hover:brightness-125 active:hover:brightness-125 transition-all inline-block py-2 touch-manipulation disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:brightness-100;
+    @apply text-white border-1 border-[#138353] px-5 font-[400] md:text-base sm:text-sm text-xs bg-[#006239] rounded-sm cursor-pointer hover:brightness-125 active:hover:brightness-125 transition-all touch-manipulation disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:brightness-100 py-2 flex items-center justify-center text-center;
   }
 
   .btn-gray {
@@ -27,6 +27,10 @@ body {
 
   .btn-err {
     @apply border-[#7f2315] bg-[#1d1412];
+  }
+
+  .btn-stable {
+    @apply py-0 md:h-[40px] sm:h-[38px] h-[35px];
   }
 
   .ds-dark {
@@ -182,4 +186,3 @@ body {
     @apply bg-background text-foreground;
   }
 }
-

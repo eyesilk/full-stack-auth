@@ -1,19 +1,16 @@
 import { useMutation } from "@tanstack/react-query";
 import AuthApi from "../authApi";
 import { alertStore } from "@/app/providers/AlertProvider";
-import { User } from "@/entities/auth";
-import { setSessionStorage } from "../../lib/setSessionStorage";
 import { useRouter } from "next/navigation";
 
-export const useLogin = () => {
+export const usePassReset = () => {
   const router = useRouter();
 
   return useMutation({
-    mutationFn: AuthApi.login,
-    onSuccess: (data: User) => {
-      const { id, email, displayName, avatar } = data;
-      setSessionStorage(id, email, displayName, avatar);
-      router.push("/dashboard");
+    mutationFn: AuthApi.passwordReset,
+    onSuccess: (data: Record<string, string>) => {
+      alertStore.setMessage(data.message);
+      router.push("/auth/login");
     },
     onError: (err: any) => {
       alertStore.setError(err.response.data.message as string);

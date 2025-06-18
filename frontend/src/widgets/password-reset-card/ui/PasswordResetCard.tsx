@@ -1,71 +1,48 @@
 "use client";
 
 import { Input } from "@/shared/input";
-import { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { BsEyeSlash, BsEye } from "react-icons/bs";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRegister } from "@/features/auth";
-import { schema } from "../lib/register.schema";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { Loader2Icon } from "lucide-react";
-import { RegisterForm } from "@/entities/auth/model/registartionForm.type";
+import { useState } from "react";
+import { BsEye, BsEyeSlash } from "react-icons/bs";
+import { PasswordResetForm } from "@/entities/auth";
+import { schema } from "../lib/password-reset.schema";
+import { usePassReset } from "@/features/auth";
+import { useSearchParams } from "next/navigation";
 
-export default function RegisterCard() {
+function PasswordResetCard() {
+  const searchParams = useSearchParams();
+  const token: string = searchParams.get("token") || "";
+
   const [isVisible, setIsVisible] = useState<boolean>(false);
-  const { mutateAsync, isPending } = useRegister();
+  const { mutateAsync, isPending } = usePassReset();
 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors, isValid, isDirty },
-  } = useForm<RegisterForm>({
+  } = useForm<PasswordResetForm>({
     mode: "onTouched",
     resolver: zodResolver(schema),
   });
 
-  const submit: SubmitHandler<RegisterForm> = async (data): Promise<void> => {
-    await mutateAsync(data);
+  const submit: SubmitHandler<PasswordResetForm> = async (
+    data,
+  ): Promise<void> => {
+    await mutateAsync({ passwordResetForm: data, token });
     reset();
   };
 
   return (
-    <form className="w-full" onSubmit={handleSubmit(submit)}>
-      <label htmlFor="name" className="label-auth" aria-invalid={!!errors.name}>
-        {errors.name ? errors.name.message : "Name"}
-      </label>
-      <div className="relative w-full">
-        <Input
-          className="md:mb-4 mb-3"
-          placeholder="eyesilk"
-          type="name"
-          id="name"
-          aria-invalid={!!errors.name}
-          {...register("name")}
-        />
-      </div>
-      <label
-        htmlFor="email"
-        className="label-auth"
-        aria-invalid={!!errors.email}
-      >
-        {errors.email ? errors.email.message : "Email"}
-      </label>
-      <Input
-        className="md:mb-4 mb-3"
-        placeholder="eyesilk@gmail.com"
-        type="email"
-        id="email"
-        aria-invalid={!!errors.email}
-        required
-        {...register("email")}
-      />
+    <form className="w-full md:mb-8 mb-6" onSubmit={handleSubmit(submit)}>
       <label
         htmlFor="password"
         className="label-auth"
         aria-invalid={!!errors.password}
       >
-        {errors.password ? errors.password.message : "Password"}
+        {errors.password ? errors.password.message : "New password"}
       </label>
       <div className="w-full relative">
         <button
@@ -111,6 +88,7 @@ export default function RegisterCard() {
         required
         {...register("passwordRepeat")}
       />
+
       <button
         className="btn btn-stable w-full"
         type="submit"
@@ -119,8 +97,9 @@ export default function RegisterCard() {
         {isPending && (
           <Loader2Icon className="animate-spin inline mr-1 scale-85" />
         )}
-        Sign up
+        Reset Your Password
       </button>
     </form>
   );
 }
+export default PasswordResetCard;

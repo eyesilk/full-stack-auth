@@ -12,7 +12,7 @@ export const useGitHubLogin = () => {
     onSuccess: (data) => {
       const { id, email, displayName, avatar } = data;
       setSessionStorage(id, email, displayName, avatar);
-      router.push("/auth/register");
+      router.push("/dashboard");
     },
     onError: (err: any) => {
       alertStore.setError(err.response.data.message as string);

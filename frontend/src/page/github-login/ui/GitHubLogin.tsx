@@ -5,13 +5,13 @@ import { Loader } from "@/shared/loader";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
-export default function GitHubLogin() {
+function GitHubLogin() {
   const searchParams = useSearchParams();
-  const token: string | null = searchParams.get("token");
+  const token: string = searchParams.get("token") || "";
   const { mutate } = useGitHubLogin();
 
   useEffect(() => {
-    mutate(token!);
+    mutate(token);
   }, []);
 
   return (
@@ -20,3 +20,5 @@ export default function GitHubLogin() {
     </div>
   );
 }
+
+export default GitHubLogin;

@@ -1,5 +1,6 @@
 import { GitHubLogin } from "@/page/github-login";
 import { Metadata } from "next";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: {
@@ -11,5 +12,9 @@ export const metadata: Metadata = {
 };
 
 export default function GitHubValidatePage() {
-  return <GitHubLogin />;
+  return (
+    <Suspense>
+      <GitHubLogin />
+    </Suspense>
+  );
 }

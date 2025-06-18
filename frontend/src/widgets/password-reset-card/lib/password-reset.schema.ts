@@ -2,8 +2,6 @@ import { z } from "zod";
 
 export const schema = z
   .object({
-    name: z.string().nonempty("Name required"),
-    email: z.string().nonempty("Email required").email(),
     password: z.string().nonempty("Password required").min(6),
     passwordRepeat: z.string().nonempty("Repeat the required password").min(6),
   })

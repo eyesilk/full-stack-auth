@@ -7,8 +7,9 @@ import { BsEyeSlash, BsEye } from "react-icons/bs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2Icon } from "lucide-react";
 import { schema } from "../lib/login.schema";
-import { LoginForm } from "@/entities/auth/model/loginForm.type";
+import { type LoginForm } from "@/entities/auth/model/loginForm.type";
 import { useLogin } from "@/features/auth";
+import Link from "next/link";
 
 export default function LoginCard() {
   const [isVisible, setIsVisible] = useState<boolean>(false);
@@ -71,7 +72,7 @@ export default function LoginCard() {
           )}
         </button>
         <Input
-          className="md:mb-8 mb-6"
+          className="md:mb-1 mb-0"
           placeholder="⦁ ⦁ ⦁ ⦁ ⦁ ⦁ ⦁"
           type={isVisible ? "text" : "password"}
           id="password"
@@ -80,8 +81,14 @@ export default function LoginCard() {
           {...register("password")}
         />
       </div>
+      <Link
+        href="password-reset-request"
+        className="md:mb-5 mb-4 inline-block text-[#898989] md:text-sm text-xs hover:text-(--shamrock) hover:underline"
+      >
+        Forgot your password?
+      </Link>
       <button
-        className="btn w-full"
+        className="btn btn-stable w-full"
         type="submit"
         disabled={!isDirty || !isValid || isPending}
       >

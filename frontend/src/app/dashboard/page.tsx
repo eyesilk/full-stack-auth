@@ -1,3 +1,4 @@
+import { Dashboard } from "@/page/dashboard";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 function DashboardPage() {
-  return <div></div>;
+  return <Dashboard />;
 }
 
 export default DashboardPage;

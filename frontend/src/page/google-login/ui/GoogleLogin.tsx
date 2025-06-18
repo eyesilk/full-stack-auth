@@ -7,11 +7,11 @@ import { useEffect } from "react";
 
 function GoogleLogin() {
   const searchParams = useSearchParams();
-  const token: string | null = searchParams.get("token");
+  const token: string = searchParams.get("token") || "";
   const { mutate } = useGoogleLogin();
 
   useEffect(() => {
-    mutate(token!);
+    mutate(token);
   }, []);
 
   return (

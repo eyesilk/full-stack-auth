@@ -29,7 +29,7 @@ export class MailService {
       to: email,
       subject: 'Password recovery',
       html: returnConfirmationHtml(
-        `${this.configService.getOrThrow<string>('APPLICATION_URL')}/verif/password-recovery/${token}`,
+        `${this.configService.getOrThrow<string>('ALLOWED_ORIGIN')}/auth/password-reset?token=${token}`,
         'Password Recovery',
         'You have requested password recovery. To do this, you need to click on the button below.',
         'This link will expire in 1 hour.',
