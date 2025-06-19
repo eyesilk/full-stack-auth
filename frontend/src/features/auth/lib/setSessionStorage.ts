@@ -3,6 +3,7 @@ export function setSessionStorage(
   email: string,
   displayName: string,
   avatar: string,
+  isTwoFactorEnabled: boolean,
 ) {
   sessionStorage.setItem(
     "account",
@@ -11,6 +12,7 @@ export function setSessionStorage(
       email,
       displayName,
       avatar,
+      isTwoFactorEnabled,
     }),
   );
   console.log(sessionStorage.getItem("account"));

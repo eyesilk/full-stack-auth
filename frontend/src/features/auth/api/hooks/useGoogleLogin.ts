@@ -10,8 +10,8 @@ export const useGoogleLogin = () => {
   return useMutation({
     mutationFn: AuthApi.googleLogin,
     onSuccess: (data) => {
-      const { id, email, displayName, avatar } = data;
-      setSessionStorage(id, email, displayName, avatar);
+      const { id, email, displayName, avatar, isTwoFactorEnabled } = data;
+      setSessionStorage(id, email, displayName, avatar, isTwoFactorEnabled);
       router.push("/dashboard");
     },
     onError: (err: any) => {

@@ -24,7 +24,7 @@ export default function Main() {
             architecture principles <br />
             on the server and FSD on the client.
           </p>
-          <div className="mt-4 sm:mt-6 md:mb-15 mb-10">
+          <div className="mt-4 sm:mt-6 md:mb-15 mb-10 flex">
             <Link href="/auth/register" className="btn mr-4">
               Let's begin
             </Link>

@@ -11,8 +11,8 @@ export const useLogin = () => {
   return useMutation({
     mutationFn: AuthApi.login,
     onSuccess: (data: User) => {
-      const { id, email, displayName, avatar } = data;
-      setSessionStorage(id, email, displayName, avatar);
+      const { id, email, displayName, avatar, isTwoFactorEnabled } = data;
+      setSessionStorage(id, email, displayName, avatar, isTwoFactorEnabled);
       router.push("/dashboard");
     },
     onError: (err: any) => {

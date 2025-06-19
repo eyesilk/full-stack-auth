@@ -10,8 +10,8 @@ export const useGitHubLogin = () => {
   return useMutation({
     mutationFn: AuthApi.gitHubLogin,
     onSuccess: (data) => {
-      const { id, email, displayName, avatar } = data;
-      setSessionStorage(id, email, displayName, avatar);
+      const { id, email, displayName, avatar, isTwoFactorEnabled } = data;
+      setSessionStorage(id, email, displayName, avatar, isTwoFactorEnabled);
       router.push("/dashboard");
     },
     onError: (err: any) => {
