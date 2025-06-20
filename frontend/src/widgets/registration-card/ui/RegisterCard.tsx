@@ -1,7 +1,7 @@
 "use client";
 
 import { Input } from "@/shared/input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { BsEyeSlash, BsEye } from "react-icons/bs";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,10 +9,13 @@ import { useRegister } from "@/features/auth";
 import { schema } from "../lib/register.schema";
 import { Loader2Icon } from "lucide-react";
 import { RegisterForm } from "@/entities/auth/model/registartionForm.type";
+import { redirect } from "next/navigation";
+import { useGetUser } from "@/features/user";
 
 export default function RegisterCard() {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const { mutateAsync, isPending } = useRegister();
+  const { data: user } = useGetUser();
 
   const {
     register,
@@ -28,6 +31,12 @@ export default function RegisterCard() {
     await mutateAsync(data);
     reset();
   };
+
+  useEffect(() => {
+    if (user) {
+      redirect("/dashboard");
+    }
+  }, [user]);
 
   return (
     <form className="w-full" onSubmit={handleSubmit(submit)}>

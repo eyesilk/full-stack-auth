@@ -5,7 +5,7 @@ import { alertStore } from "@/app/providers/AlertProvider";
 export const useRegister = () => {
   return useMutation({
     mutationFn: AuthApi.registration,
-    onSuccess: (data) => {
+    onSuccess: (data: Record<string, string>) => {
       alertStore.setMessage(data.message);
     },
     onError: (err: any) => {

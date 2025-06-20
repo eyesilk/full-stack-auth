@@ -1,7 +1,7 @@
 "use client";
 
 import { Input } from "@/shared/input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { BsEyeSlash, BsEye } from "react-icons/bs";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,10 +10,13 @@ import { schema } from "../lib/login.schema";
 import { type LoginForm } from "@/entities/auth/model/loginForm.type";
 import { useLogin } from "@/features/auth";
 import Link from "next/link";
+import { useGetUser } from "@/features/user";
+import { redirect } from "next/navigation";
 
 export default function LoginCard() {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const { mutateAsync, isPending } = useLogin();
+  const { data: user } = useGetUser();
 
   const {
     register,
@@ -29,6 +32,12 @@ export default function LoginCard() {
     await mutateAsync(data);
     reset();
   };
+
+  useEffect(() => {
+    if (user) {
+      redirect("/dashboard");
+    }
+  }, [user]);
 
   return (
     <form className="w-full" onSubmit={handleSubmit(submit)}>

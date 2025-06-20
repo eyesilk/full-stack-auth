@@ -1,5 +1,6 @@
 import { Dashboard } from "@/page/dashboard";
 import { Metadata } from "next";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: {
@@ -11,7 +12,11 @@ export const metadata: Metadata = {
 };
 
 function DashboardPage() {
-  return <Dashboard />;
+  return (
+    <Suspense>
+      <Dashboard />
+    </Suspense>
+  );
 }
 
 export default DashboardPage;

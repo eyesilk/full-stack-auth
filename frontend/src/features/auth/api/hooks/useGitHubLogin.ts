@@ -3,13 +3,14 @@ import AuthApi from "../authApi";
 import { alertStore } from "@/app/providers/AlertProvider";
 import { useRouter } from "next/navigation";
 import { setSessionStorage } from "../../lib/setSessionStorage";
+import { User } from "@/entities/auth";
 
 export const useGitHubLogin = () => {
   const router = useRouter();
 
   return useMutation({
     mutationFn: AuthApi.gitHubLogin,
-    onSuccess: (data) => {
+    onSuccess: (data: User) => {
       const { id, email, displayName, avatar, isTwoFactorEnabled } = data;
       setSessionStorage(id, email, displayName, avatar, isTwoFactorEnabled);
       router.push("/dashboard");

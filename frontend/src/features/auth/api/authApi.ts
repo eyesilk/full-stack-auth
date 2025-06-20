@@ -50,4 +50,10 @@ export default class AuthApi {
 
     return data;
   }
+
+  static async getUser() {
+    const { data } = await apiAxios.get("/user/profile");
+
+    return data;
+  }
 }
