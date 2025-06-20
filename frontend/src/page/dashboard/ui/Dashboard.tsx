@@ -8,7 +8,7 @@ import { Switch } from "@/shared/switch";
 import { DashboardForm } from "@/entities/dashboard";
 import { Avatar, AvatarFallback } from "@/shared/avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
-import { useGetUser } from "@/features/user";
+import { useGetUser, useUpdateUser } from "@/features/user";
 import { Loader } from "@/shared/loader";
 import { useRouter } from "next/navigation";
 import {
@@ -17,7 +17,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/shared/dropdown-menu";
-import { LogOutIcon } from "lucide-react";
+import { Loader2Icon, LogOutIcon } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useLogout } from "@/features/auth";
 
 type DashboardInnerProps = {
   user: {
@@ -30,10 +32,15 @@ type DashboardInnerProps = {
 };
 
 function DashboardInner({ user }: DashboardInnerProps) {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const { mutateAsync: updateUserAsync, isPending: isUpdatePending } =
+    useUpdateUser();
+  const { mutate: logout } = useLogout();
+
   const {
     register,
     handleSubmit,
-    reset,
     control,
     watch,
     formState: { errors, isValid },
@@ -50,29 +57,36 @@ function DashboardInner({ user }: DashboardInnerProps) {
   const isTwoFactorEnabled: boolean = watch("isTwoFactorEnabled");
 
   const submit: SubmitHandler<DashboardForm> = async (data): Promise<void> => {
-    reset();
+    updateUserAsync(data);
   };
   return (
     <div className="flex-center justify-between bg-plaid bg-drk-gray h-screen min-h-[220px] w-full">
       <div className="bg-[#171717] md:max-w-[550px] sm:max-w-[400px] w-full m-10 border border-[#2e2e2e] rounded-md p-5">
         <div className="flex-center justify-between md:mb-7 mb-5 ">
           <h1
-            className={`sm:text-3xl text-2xl font-[500] text-white leading-tight w-full md:text-4xl `}
+            className={`sm:text-3xl text-xl font-[500] text-white leading-tight w-full md:text-4xl `}
           >
             It's a{" "}
             <strong className="text-(--shamrock) inline-block underline underline-offset-[17px] decoration-wavy">
               Dashboard
             </strong>
           </h1>
-          <DropdownMenu>
+          <DropdownMenu onOpenChange={setIsOpen}>
             <DropdownMenuTrigger className="cursor-pointer">
-              <Avatar className="hover:ring-2 hover:ring-(--shamrock) transition-all">
+              <Avatar
+                className={`${isOpen && "ring-2 ring-(--shamrock)"} hover:ring-2 hover:ring-(--shamrock) transition-all`}
+              >
                 <AvatarImage src={user.avatar} alt={user.displayName} />
-                <AvatarFallback>AV</AvatarFallback>
+                <AvatarFallback>
+                  {user.displayName.slice(0, 2).toUpperCase()}
+                </AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem className="flex items-center justify-between">
+              <DropdownMenuItem
+                className="flex items-center justify-between"
+                onClick={() => logout()}
+              >
                 <span>Logout</span>
                 <LogOutIcon />
               </DropdownMenuItem>
@@ -128,7 +142,6 @@ function DashboardInner({ user }: DashboardInnerProps) {
                 <Switch
                   checked={field.value}
                   onCheckedChange={field.onChange}
-                  className="cursor-pointer"
                 />
               </div>
             )}
@@ -136,11 +149,11 @@ function DashboardInner({ user }: DashboardInnerProps) {
           <button
             className="btn btn-stable w-full"
             type="submit"
-            disabled={!isValid}
+            disabled={!isValid || isUpdatePending}
           >
-            {/* {isPending && ( */}
-            {/*   <Loader2Icon className="animate-spin inline mr-1 scale-85" /> */}
-            {/* )} */}
+            {isUpdatePending && (
+              <Loader2Icon className="animate-spin inline mr-1 scale-85" />
+            )}
             Update Profile
           </button>
         </form>
@@ -153,17 +166,25 @@ function Dashboard() {
   const { data: user, isLoading, isError } = useGetUser();
   const router = useRouter();
 
-  if (isLoading || !user) {
+  useEffect(() => {
+    if (isError) {
+      router.push("/auth/register");
+    }
+  }, [isError]);
+
+  if (isLoading && !user) {
     return (
       <div className="flex-center justify-between bg-plaid h-screen min-h-[220px] w-full">
         <Loader />
       </div>
     );
-  } else if (isError) {
-    router.push("/auth/register");
-  } else {
-    return <DashboardInner user={user} />;
   }
+
+  if (!user) {
+    return null;
+  }
+
+  return <DashboardInner user={user} />;
 }
 
 export default Dashboard;

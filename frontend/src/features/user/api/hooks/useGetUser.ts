@@ -12,7 +12,7 @@ export const useGetUser = () => {
         return JSON.parse(userStorage);
       }
 
-      const userData: User = await UserApi.getUser();
+      const userData: User = await UserApi.get();
       const { id, email, displayName, avatar, isTwoFactorEnabled } = userData;
       setSessionStorage(id, email, displayName, avatar, isTwoFactorEnabled);
       return {

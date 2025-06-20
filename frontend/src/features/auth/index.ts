@@ -4,3 +4,4 @@ export { useGitHubLogin } from "./api/hooks/useGitHubLogin";
 export { useGoogleLogin } from "./api/hooks/useGoogleLogin";
 export { usePassResetReq } from "./api/hooks/usePassResetReq";
 export { usePassReset } from "./api/hooks/usePassReset";
+export { useLogout } from "./api/hooks/useLogout";

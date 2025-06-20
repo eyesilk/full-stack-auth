@@ -2,6 +2,7 @@ import { PasswordResetForm } from "@/entities/auth";
 import { LoginForm } from "@/entities/auth/model/loginForm.type";
 import { RegisterForm } from "@/entities/auth/model/registartionForm.type";
 import { axios as apiAxios } from "@/shared/utils";
+import { redirect } from "next/navigation";
 
 export default class AuthApi {
   static async registration(registrationForm: RegisterForm) {
@@ -51,9 +52,7 @@ export default class AuthApi {
     return data;
   }
 
-  static async getUser() {
-    const { data } = await apiAxios.get("/user/profile");
-
-    return data;
+  static async logout() {
+    await apiAxios.post("/auth/logout");
   }
 }

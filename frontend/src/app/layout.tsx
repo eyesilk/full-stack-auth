@@ -3,7 +3,6 @@ import "./styles/globals.css";
 import localFont from "next/font/local";
 import { AppProvider } from "./providers";
 import NextTopLoader from "nextjs-toploader";
-import { useGetUser } from "@/features/user";
 
 const FigtreeFont = localFont({
   src: "./fonts/Figtree-VariableFont_wght.ttf",
