@@ -20,6 +20,12 @@ import {
 import { Loader2Icon, LogOutIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useLogout } from "@/features/auth";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from "@/shared/input-otp/ui/input-otp";
+import { AnimateWrapper } from "@/shared/animate-wrapper";
 
 type DashboardInnerProps = {
   user: {
@@ -34,8 +40,11 @@ type DashboardInnerProps = {
 function DashboardInner({ user }: DashboardInnerProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const { mutateAsync: updateUserAsync, isPending: isUpdatePending } =
-    useUpdateUser();
+  const {
+    mutation: mutationUpdate,
+    isCodeEnabled,
+    setIsCodeEnabled,
+  } = useUpdateUser();
   const { mutate: logout } = useLogout();
 
   const {
@@ -57,7 +66,7 @@ function DashboardInner({ user }: DashboardInnerProps) {
   const isTwoFactorEnabled: boolean = watch("isTwoFactorEnabled");
 
   const submit: SubmitHandler<DashboardForm> = async (data): Promise<void> => {
-    updateUserAsync(data);
+    mutationUpdate.mutate(data);
   };
   return (
     <div className="flex-center justify-between bg-plaid bg-drk-gray h-screen min-h-[220px] w-full">
@@ -149,13 +158,44 @@ function DashboardInner({ user }: DashboardInnerProps) {
           <button
             className="btn btn-stable w-full"
             type="submit"
-            disabled={!isValid || isUpdatePending}
+            disabled={!isValid || mutationUpdate.isPending}
           >
-            {isUpdatePending && (
+            {mutationUpdate.isPending && (
               <Loader2Icon className="animate-spin inline mr-1 scale-85" />
             )}
             Update Profile
           </button>
+          {isCodeEnabled && (
+            <div className="w-full h-full fixed bg-black/35 top-0 left-0 flex-center">
+              <AnimateWrapper className="flex-center">
+                <div className="bg-[#171717] flex-center flex-col w-fit m-10 border border-[#2e2e2e] rounded-md p-5">
+                  <span className="text-base font-[500] text-white leading-tight md:text-xl mb-5">
+                    Enter your verification code
+                  </span>
+                  <InputOTP maxLength={6}>
+                    <InputOTPGroup>
+                      <InputOTPSlot index={0} />
+                      <InputOTPSlot index={1} />
+                      <InputOTPSlot index={2} />
+                      <InputOTPSlot index={3} />
+                      <InputOTPSlot index={4} />
+                      <InputOTPSlot index={5} />
+                    </InputOTPGroup>
+                  </InputOTP>
+                  <div className="flex w-full gap-3 mt-5">
+                    <button
+                      className="btn btn-gray btn-stable w-full"
+                      type="button"
+                      onClick={() => setIsCodeEnabled(false)}
+                    >
+                      Decline
+                    </button>
+                    <button className="btn btn-stable w-full">Submit</button>
+                  </div>
+                </div>
+              </AnimateWrapper>
+            </div>
+          )}
         </form>
       </div>
     </div>
