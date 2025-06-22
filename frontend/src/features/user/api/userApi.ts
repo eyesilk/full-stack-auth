@@ -9,12 +9,13 @@ export default class UserApi {
   }
 
   static async update(dashboardForm: DashboardForm) {
-    const { name, email, isTwoFactorEnabled } = dashboardForm;
+    const { name, email, isTwoFactorEnabled, code } = dashboardForm;
 
     const { data } = await apiAxios.patch("/user/update", {
       name,
       email,
       twoFactor: isTwoFactorEnabled,
+      code,
     });
 
     return data;

@@ -67,6 +67,7 @@ function DashboardInner({ user }: DashboardInnerProps) {
 
   const submit: SubmitHandler<DashboardForm> = async (data): Promise<void> => {
     mutationUpdate.mutate(data);
+    console.log(data);
   };
   return (
     <div className="flex-center justify-between bg-plaid bg-drk-gray h-screen min-h-[220px] w-full">
@@ -172,16 +173,26 @@ function DashboardInner({ user }: DashboardInnerProps) {
                   <span className="text-base font-[500] text-white leading-tight md:text-xl mb-5">
                     Enter your verification code
                   </span>
-                  <InputOTP maxLength={6}>
-                    <InputOTPGroup>
-                      <InputOTPSlot index={0} />
-                      <InputOTPSlot index={1} />
-                      <InputOTPSlot index={2} />
-                      <InputOTPSlot index={3} />
-                      <InputOTPSlot index={4} />
-                      <InputOTPSlot index={5} />
-                    </InputOTPGroup>
-                  </InputOTP>
+                  <Controller
+                    name="code"
+                    control={control}
+                    render={({ field }) => (
+                      <InputOTP
+                        maxLength={6}
+                        value={field.value}
+                        onChange={(value) => field.onChange(value)}
+                      >
+                        <InputOTPGroup>
+                          <InputOTPSlot index={0} />
+                          <InputOTPSlot index={1} />
+                          <InputOTPSlot index={2} />
+                          <InputOTPSlot index={3} />
+                          <InputOTPSlot index={4} />
+                          <InputOTPSlot index={5} />
+                        </InputOTPGroup>
+                      </InputOTP>
+                    )}
+                  />
                   <div className="flex w-full gap-3 mt-5">
                     <button
                       className="btn btn-gray btn-stable w-full"
@@ -190,7 +201,16 @@ function DashboardInner({ user }: DashboardInnerProps) {
                     >
                       Decline
                     </button>
-                    <button className="btn btn-stable w-full">Submit</button>
+                    <button
+                      className="btn btn-stable w-full"
+                      type="submit"
+                      disabled={!isValid || mutationUpdate.isPending}
+                    >
+                      {mutationUpdate.isPending && (
+                        <Loader2Icon className="animate-spin inline mr-1 scale-85" />
+                      )}
+                      Submit
+                    </button>
                   </div>
                 </div>
               </AnimateWrapper>
