@@ -2,8 +2,8 @@ import { UserEntity } from 'src/core/domain';
 import { BaseAuthUseCase } from '../base.usecase';
 
 export class GitHubUseCase extends BaseAuthUseCase {
-  async execute(
-    req: any,
+  async execute<Req>(
+    req: Req,
     email: string,
     name: string,
     avatar: string,

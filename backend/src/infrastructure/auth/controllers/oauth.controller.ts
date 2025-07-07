@@ -36,7 +36,7 @@ export class OAuthContoller {
     @Param('token') token: string,
     @Req() req: Request,
   ): Promise<UserEntity> {
-    return this.gitHubLoginCase.execute(token, req);
+    return this.gitHubLoginCase.execute<Request>(token, req);
   }
 
   @Post('google-login/:token')
@@ -45,7 +45,7 @@ export class OAuthContoller {
     @Param('token') token: string,
     @Req() req: Request,
   ): Promise<UserEntity> {
-    return this.googleLoginCase.execute(token, req);
+    return this.googleLoginCase.execute<Request>(token, req);
   }
 
   @Get('github')
@@ -62,7 +62,7 @@ export class OAuthContoller {
     @Res() res: Response,
   ): Promise<void> {
     const { email, displayName: name, avatar, accessToken } = user;
-    this.githubCase.execute(req, email, name, avatar!);
+    this.githubCase.execute<Request>(req, email, name, avatar!);
     res.redirect(
       `${this.configService.getOrThrow<string>('ALLOWED_ORIGIN')}/auth/validate/github?token=${accessToken}`,
     );
@@ -82,7 +82,7 @@ export class OAuthContoller {
     @Res() res: Response,
   ): Promise<void> {
     const { email, displayName: name, avatar, accessToken } = user;
-    this.googleCase.execute(req, email, name, avatar!);
+    this.googleCase.execute<Request>(req, email, name, avatar!);
     res.redirect(
       `${this.configService.getOrThrow<string>('ALLOWED_ORIGIN')}/auth/validate/google?token=${accessToken}`,
     );

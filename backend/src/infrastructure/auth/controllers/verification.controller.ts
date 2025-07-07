@@ -36,7 +36,7 @@ export class VerificationController {
     @Param('token')
     token: string,
   ): Promise<void> {
-    this.accountConfirmationCase.execute(req, token);
+    this.accountConfirmationCase.execute<Request>(req, token);
     res.redirect(
       `${this.configService.getOrThrow<string>('ALLOWED_ORIGIN')}/auth/login`,
     );

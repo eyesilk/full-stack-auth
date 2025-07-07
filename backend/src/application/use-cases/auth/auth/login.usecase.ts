@@ -4,8 +4,8 @@ import { NotFoundError, UnauthorizedError } from 'src/application/errors';
 import { Record } from 'prisma/__generated__/runtime/library';
 
 export class LoginUseCase extends BaseAuthUseCase {
-  async execute(
-    req: any,
+  async execute<Req>(
+    req: Req,
     email: string,
     password: string,
     code?: string,

@@ -1,7 +1,7 @@
 import { BaseAuthUseCase } from '../base.usecase';
 
 export class LogoutUseCase extends BaseAuthUseCase {
-  async execute(req: any, res: any): Promise<void> {
+  async execute<Req, Res>(req: Req, res: Res): Promise<void> {
     await this.sessionPort.destroy(req, res);
   }
 }

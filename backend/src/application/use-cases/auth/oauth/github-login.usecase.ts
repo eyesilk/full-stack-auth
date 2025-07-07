@@ -4,7 +4,7 @@ import { ConflictError, NotFoundError } from 'src/application/errors';
 import { ConflictException } from '@nestjs/common';
 
 export class GitHubLoginUseCase extends BaseAuthUseCase {
-  async execute(accessToken: string, req: any): Promise<UserEntity> {
+  async execute<Req>(accessToken: string, req: Req): Promise<UserEntity> {
     const email: string | null =
       await this.interceptorPort.checkGitHubTokenValid(accessToken);
 

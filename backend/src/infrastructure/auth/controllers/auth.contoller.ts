@@ -40,13 +40,18 @@ export class AuthController {
     @Req() req: Request,
     @Body() dto: LoginDto,
   ): Promise<UserEntity | Record<string, string>> {
-    return this.loginCase.execute(req, dto.email, dto.password, dto.code);
+    return this.loginCase.execute<Request>(
+      req,
+      dto.email,
+      dto.password,
+      dto.code,
+    );
   }
 
   @Post('logout')
   @HttpCode(HttpStatus.OK)
   async logout(@Req() req: Request, @Res() res: Response): Promise<void> {
-    await this.logoutCase.execute(req, res);
+    await this.logoutCase.execute<Request, Response>(req, res);
     res.send(true);
   }
 }
