@@ -1,13 +1,15 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import AuthApi from "../authApi";
 import { alertStore } from "@/app/providers/AlertProvider";
 import { useRouter } from "next/navigation";
+import { ErrorResponse } from "../../model/error.type";
+import { AxiosError } from "axios";
+import AuthApi from "../authApi";
 
 export const useLogout = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  return useMutation({
+  return useMutation<void, AxiosError<ErrorResponse>>({
     mutationFn: AuthApi.logout,
     onSuccess: () => {
       sessionStorage.removeItem("account");

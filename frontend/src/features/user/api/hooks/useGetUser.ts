@@ -4,7 +4,7 @@ import UserApi from "../userApi";
 import { setSessionStorage } from "@/features/auth/lib/setSessionStorage";
 
 export const useGetUser = () => {
-  return useQuery({
+  return useQuery<User>({
     queryKey: ["get-user"],
     queryFn: async () => {
       const userStorage = sessionStorage.getItem("account");

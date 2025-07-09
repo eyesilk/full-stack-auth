@@ -4,19 +4,21 @@ import { alertStore } from "@/app/providers/AlertProvider";
 import { useRouter } from "next/navigation";
 import { setSessionStorage } from "../../lib/setSessionStorage";
 import { User } from "@/entities/auth";
+import { AxiosError } from "axios";
+import { ErrorResponse } from "../../model/error.type";
 
 export const useGitHubLogin = () => {
   const router = useRouter();
 
-  return useMutation({
+  return useMutation<User, AxiosError<ErrorResponse>, string>({
     mutationFn: AuthApi.gitHubLogin,
-    onSuccess: (data: User) => {
+    onSuccess: (data) => {
       const { id, email, displayName, avatar, isTwoFactorEnabled } = data;
       setSessionStorage(id, email, displayName, avatar, isTwoFactorEnabled);
       router.push("/dashboard");
     },
-    onError: (err: any) => {
-      alertStore.setError(err.response.data.message as string);
+    onError: (err) => {
+      alertStore.setError(err.response?.data.message || "unknown error");
       setTimeout(() => {
         router.push("/auth/register");
       }, 3000);

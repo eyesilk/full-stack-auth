@@ -4,16 +4,28 @@ import UserApi from "../userApi";
 import { setSessionStorage } from "@/features/auth/lib/setSessionStorage";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { hasMessage } from "../../model/type-guards/has-message.typeguard";
+import { UpdateResponse } from "../../model/update-response.type";
+import { AxiosError } from "axios";
+import { ErrorResponse } from "../../model/error.type";
+import { DashboardForm } from "@/entities/dashboard";
 
 export const useUpdateUser = () => {
   const [isCodeEnabled, setIsCodeEnabled] = useState<boolean>(false);
   const queryClient = useQueryClient();
   const router = useRouter();
 
-  const mutation = useMutation({
+  const mutation = useMutation<
+    UpdateResponse,
+    AxiosError<ErrorResponse>,
+    DashboardForm
+  >({
     mutationFn: UserApi.update,
     onSuccess: (data) => {
-      if (!data.message) {
+      if (hasMessage(data)) {
+        alertStore.setMessage(data.message);
+        setIsCodeEnabled(true);
+      } else {
         setIsCodeEnabled(false);
         const { id, email, displayName, avatar, isTwoFactorEnabled } = data;
         queryClient.removeQueries({ queryKey: ["get-user"] });
@@ -23,13 +35,10 @@ export const useUpdateUser = () => {
         alertStore.setMessage(
           "Success. Profile information has been successfully updated",
         );
-      } else {
-        alertStore.setMessage(data.message);
-        setIsCodeEnabled(true);
       }
     },
-    onError: (err: any) => {
-      alertStore.setError(err.response.data.message as string);
+    onError: (err) => {
+      alertStore.setError(err.response?.data.message || "unknown error");
     },
   });
 

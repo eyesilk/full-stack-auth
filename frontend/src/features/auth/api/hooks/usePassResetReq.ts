@@ -1,15 +1,18 @@
 import { useMutation } from "@tanstack/react-query";
 import AuthApi from "../authApi";
 import { alertStore } from "@/app/providers/AlertProvider";
+import { MessageResponse } from "../../model/message-response.type";
+import { AxiosError } from "axios";
+import { ErrorResponse } from "../../model/error.type";
 
 export const usePassResetReq = () => {
-  return useMutation({
+  return useMutation<MessageResponse, AxiosError<ErrorResponse>, string>({
     mutationFn: AuthApi.passwordResetRequest,
-    onSuccess: (data: Record<string, string>) => {
+    onSuccess: (data) => {
       alertStore.setMessage(data.message);
     },
-    onError: (err: any) => {
-      alertStore.setError(err.response.data.message as string);
+    onError: (err) => {
+      alertStore.setError(err.response?.data.message || "unknown error");
     },
   });
 };
